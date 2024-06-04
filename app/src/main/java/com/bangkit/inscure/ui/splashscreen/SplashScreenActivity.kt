@@ -1,12 +1,13 @@
-package com.bangkit.inscure.ui
+package com.bangkit.inscure.ui.splashscreen
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.bangkit.inscure.R
+import com.bangkit.inscure.ui.auth.AuthActivity
 
-class SplashscreenActivity : AppCompatActivity() {
+class SplashScreenActivity : AppCompatActivity() {
 
     private val splashScreenDuration: Long = 2000 // 2 seconds
 
@@ -15,8 +16,8 @@ class SplashscreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splashscreen)
 
         Handler().postDelayed({
-            // Start MainActivity
-            val intent = Intent(this@SplashscreenActivity, MainActivity::class.java)
+            // Start AuthActivity
+            val intent = Intent(this@SplashScreenActivity, AuthActivity::class.java)
             startActivity(intent)
             // Close SplashActivity
             finish()

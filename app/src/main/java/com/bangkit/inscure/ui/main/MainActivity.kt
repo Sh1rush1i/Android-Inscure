@@ -1,4 +1,4 @@
-package com.bangkit.inscure.ui
+package com.bangkit.inscure.ui.main
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
