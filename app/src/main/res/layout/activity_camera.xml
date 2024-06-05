@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/viewFinder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/container_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_camera_container"
+        android:padding="12dp">
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:contentDescription="@string/btn_camera_back"
+            android:src="@drawable/ic_arrow_toolbar"
+            app:tint="@color/white" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/container_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_camera_container"
+        android:padding="12dp"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/btn_gallery"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:contentDescription="@string/btn_gallery"
+            android:padding="20dp"
+            app:srcCompat="@drawable/gallery_24"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/btn_shutter"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/btn_shutter_camera"
+            app:srcCompat="@drawable/ic_shutter"
+            app:tint="@color/purple_light_secondary" />
+
+        <ImageView
+            android:id="@+id/btn_switch"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/btn_switch_camera"
+            android:padding="20dp"
+            app:srcCompat="@drawable/switch_24"
+            app:tint="@color/white" />
+    </RelativeLayout>
+</RelativeLayout>

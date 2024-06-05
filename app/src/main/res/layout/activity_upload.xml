@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    tools:context=".ui.upload.UploadActivity">
+
+    <ImageView
+        android:id="@+id/story_image"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:background="@color/light_gray"
+        android:scaleType="fitCenter"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <EditText
+        android:id="@+id/ed_add_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/story_image"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/custom_story_desc"
+        android:gravity="start"
+        android:maxLines="4"
+        android:minLines="4"
+        android:inputType="textMultiLine"
+        android:padding="16dp"
+        android:autofillHints=""/>
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ed_add_description"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/custom_signin_button"
+        android:text="Upload"
+        app:backgroundTint="@color/purple_light_secondary"/>
+</RelativeLayout>
