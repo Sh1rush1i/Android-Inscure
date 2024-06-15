@@ -1,5 +1,6 @@
 package com.bangkit.inscure.ui.upload
 
+import android.content.Context
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
@@ -42,10 +43,19 @@ class UploadActivity : AppCompatActivity() {
     }
 
     private fun uploadImage(file: File) {
+        val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val authToken = sharedPreferences.getString("authToken", null)
+
+        if (authToken.isNullOrEmpty()) {
+            Toast.makeText(this, "Auth token is missing", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
         val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+        val authHeader = "Bearer $authToken"
 
-        RetrofitClient.instance.uploadImage(body).enqueue(object : Callback<PredictionResponse> {
+        RetrofitClient.instance.uploadImage(authHeader, body).enqueue(object : Callback<PredictionResponse> {
             override fun onResponse(call: Call<PredictionResponse>, response: Response<PredictionResponse>) {
                 if (response.isSuccessful) {
                     binding.tvPrediction.text = response.body()?.data?.hasil_prediksi

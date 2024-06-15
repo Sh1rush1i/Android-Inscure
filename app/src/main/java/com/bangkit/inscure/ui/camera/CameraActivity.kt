@@ -39,6 +39,7 @@ class CameraActivity : AppCompatActivity() {
         binding.let {
             it.btnShutter.setOnClickListener {
                 takePhoto()
+                finish()
             }
             it.btnSwitch.setOnClickListener {
                 cameraSelector =

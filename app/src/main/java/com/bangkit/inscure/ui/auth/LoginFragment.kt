@@ -1,5 +1,6 @@
 package com.bangkit.inscure.ui.auth
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.transition.TransitionInflater
@@ -92,9 +93,15 @@ class LoginFragment : Fragment() {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful) {
                     val token = response.body()?.data
+
+                    // Store the auth token in SharedPreferences
+                    val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putString("authToken", token)
+                    editor.apply()
+
                     Toast.makeText(requireContext(), "Login successful", Toast.LENGTH_SHORT).show()
                     val intent = Intent(requireContext(), MainActivity::class.java)
-                    intent.putExtra("TOKEN", token)
                     startActivity(intent)
                     requireActivity().finish()
                 } else {
