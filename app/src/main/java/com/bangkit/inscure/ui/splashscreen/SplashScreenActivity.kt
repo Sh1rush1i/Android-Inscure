@@ -1,37 +1,37 @@
 package com.bangkit.inscure.ui.splashscreen
 
-import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
-import android.view.WindowManager
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.bangkit.inscure.R
 import com.bangkit.inscure.ui.auth.AuthActivity
+import com.bangkit.inscure.ui.main.MainActivity
 
-@SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
-
-    private val splashScreenDuration: Long = 2000 // 2 seconds
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splashscreen)
 
-        @Suppress("DEPRECATION")
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
+        // Menunda eksekusi selama 2 detik
+        Handler(Looper.getMainLooper()).postDelayed({
+            val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+            val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
 
-        @Suppress("DEPRECATION")
-        Handler().postDelayed({
-            // Start AuthActivity
-            val intent = Intent(this@SplashScreenActivity, AuthActivity::class.java)
-            startActivity(intent)
-            // Close SplashActivity
+            // Memeriksa status login
+            if (isLoggedIn) {
+                // Jika sudah login, buka MainActivity
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            } else {
+                // Jika belum login, buka AuthActivity
+                val intent = Intent(this, AuthActivity::class.java)
+                startActivity(intent)
+            }
             finish()
-        }, splashScreenDuration)
+        }, 2000) // 2 detik
     }
-
 }

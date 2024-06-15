@@ -79,6 +79,18 @@
             android:paddingVertical="15dp"
             android:transitionName="email"/>
 
+        <com.bangkit.inscure.ui.custom.EditTextClear
+            android:id="@+id/ed_register_notelp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/custom_form_input"
+            android:hint="@string/txt_name"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="15dp"
+            android:transitionName="email"/>
+
         <com.bangkit.inscure.ui.custom.EditTextPassword
             android:id="@+id/ed_register_password"
             android:layout_width="match_parent"

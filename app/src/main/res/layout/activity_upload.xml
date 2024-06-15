@@ -15,26 +15,29 @@
         android:scaleType="fitCenter"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <EditText
-        android:id="@+id/ed_add_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:id="@+id/container_prediction"
         android:layout_below="@+id/story_image"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/custom_story_desc"
-        android:gravity="start"
-        android:maxLines="4"
-        android:minLines="4"
-        android:inputType="textMultiLine"
-        android:padding="16dp"
-        android:autofillHints=""/>
+        android:layout_marginVertical="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prediction : "/>
+        <TextView
+            android:id="@+id/tv_prediction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Apa apa"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ed_add_description"
-        android:layout_marginTop="16dp"
+        android:layout_below="@+id/container_prediction"
         android:background="@drawable/custom_signin_button"
         android:text="Upload"
         app:backgroundTint="@color/purple_light_secondary"/>

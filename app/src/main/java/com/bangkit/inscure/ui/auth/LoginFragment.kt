@@ -6,12 +6,19 @@ import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bangkit.inscure.R
 import com.bangkit.inscure.databinding.FragmentLoginBinding
+import com.bangkit.inscure.network.LoginRequest
+import com.bangkit.inscure.network.LoginResponse
+import com.bangkit.inscure.network.RetrofitClient
 import com.bangkit.inscure.ui.main.MainActivity
 import com.bangkit.inscure.utils.Constanta
 import com.bangkit.inscure.utils.Helper
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LoginFragment : Fragment() {
     companion object {
@@ -43,7 +50,7 @@ class LoginFragment : Fragment() {
             val email = binding.edLoginEmail.text.toString()
             val password = binding.edLoginPassword.text.toString()
             when {
-                email.isEmpty() or password.isEmpty() -> {
+                email.isEmpty() || password.isEmpty() -> {
                     Helper.showDialogInfo(
                         requireContext(),
                         getString(R.string.empty_email_password)
@@ -62,12 +69,11 @@ class LoginFragment : Fragment() {
                     )
                 }
                 else -> {
-                    val intent = Intent(requireContext(), MainActivity::class.java)
-                    startActivity(intent)
-                    requireActivity().finish()
+                    loginUser(email, password)
                 }
             }
         }
+
         binding.btnRegister.setOnClickListener {
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.container, RegisterFragment(), RegisterFragment::class.java.simpleName)
@@ -80,4 +86,25 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun loginUser(email: String, password: String) {
+        val request = LoginRequest(email, password)
+        RetrofitClient.instance.loginUser(request).enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                if (response.isSuccessful) {
+                    val token = response.body()?.data
+                    Toast.makeText(requireContext(), "Login successful", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(requireContext(), MainActivity::class.java)
+                    intent.putExtra("TOKEN", token)
+                    startActivity(intent)
+                    requireActivity().finish()
+                } else {
+                    Toast.makeText(requireContext(), "Failed to login", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
 }

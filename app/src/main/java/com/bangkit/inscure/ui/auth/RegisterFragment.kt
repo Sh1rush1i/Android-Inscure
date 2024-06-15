@@ -6,10 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.bangkit.inscure.databinding.FragmentRegisterBinding
 import com.bangkit.inscure.R
+import com.bangkit.inscure.network.RegisterRequest
+import com.bangkit.inscure.network.RegisterResponse
+import com.bangkit.inscure.network.RetrofitClient
 import com.bangkit.inscure.utils.Constanta
 import com.bangkit.inscure.utils.Helper
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class RegisterFragment : Fragment() {
 
@@ -37,12 +44,15 @@ class RegisterFragment : Fragment() {
         binding.btnLogin.setOnClickListener {
             switchLogin()
         }
+
         binding.btnAction.setOnClickListener {
-            val nama = binding.edRegisterName.text.toString()
+            val name = binding.edRegisterName.text.toString()
             val email = binding.edRegisterEmail.text.toString()
+            val notelp = binding.edRegisterNotelp.text.toString()
             val password = binding.edRegisterPassword.text.toString()
+
             when {
-                email.isEmpty() or password.isEmpty() or nama.isEmpty() -> {
+                email.isEmpty() || password.isEmpty() || name.isEmpty() || notelp.isEmpty() -> {
                     Helper.showDialogInfo(
                         requireContext(),
                         getString(R.string.empty_email_password)
@@ -61,16 +71,33 @@ class RegisterFragment : Fragment() {
                     )
                 }
                 else -> {
-                    switchLogin()
+                    registerUser(name, email, notelp, password)
                 }
             }
         }
     }
 
+    private fun registerUser(name: String, email: String, notelp: String, password: String) {
+        val request = RegisterRequest(name, email, notelp, password)
+        RetrofitClient.instance.registerUser(request).enqueue(object : Callback<RegisterResponse> {
+            override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT).show()
+                    switchLogin()
+                } else {
+                    Toast.makeText(requireContext(), "Failed to register", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
     private fun switchLogin() {
         parentFragmentManager.beginTransaction().apply {
             replace(R.id.container, LoginFragment(), LoginFragment::class.java.simpleName)
-            /* Shared element transition to main activity */
             addSharedElement(binding.labelAuth, "auth")
             addSharedElement(binding.edRegisterEmail, "email")
             addSharedElement(binding.edRegisterPassword, "password")
@@ -78,5 +105,4 @@ class RegisterFragment : Fragment() {
             commit()
         }
     }
-
 }
