@@ -1,11 +1,16 @@
 package com.bangkit.inscure.ui.auth
 
+import android.animation.Animator
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.transition.TransitionInflater
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.ImageView
 import android.widget.Toast
 import com.bangkit.inscure.databinding.FragmentRegisterBinding
 import com.bangkit.inscure.R
@@ -14,6 +19,7 @@ import com.bangkit.inscure.network.RegisterResponse
 import com.bangkit.inscure.network.RetrofitClient
 import com.bangkit.inscure.utils.Constanta
 import com.bangkit.inscure.utils.Helper
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,6 +46,8 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        zoomRotateAnimation(view)
 
         binding.btnLogin.setOnClickListener {
             switchLogin()
@@ -77,20 +85,64 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    private fun zoomRotateAnimation(view: View) {
+        val imageView: ImageView = view.findViewById(R.id.imageView)
+
+        val scaleXOut = ObjectAnimator.ofFloat(imageView, "scaleX", 1f, 0.5f).apply {
+            duration = 500 // Duration for zoom out
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+        val scaleYOut = ObjectAnimator.ofFloat(imageView, "scaleY", 1f, 0.5f).apply {
+            duration = 500 // Duration for zoom out
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+
+        val rotate = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 360f).apply {
+            duration = 500 // Duration for fast rotation
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+
+        val scaleXIn = ObjectAnimator.ofFloat(imageView, "scaleX", 0.5f, 1f).apply {
+            duration = 500 // Duration for zoom in
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+        val scaleYIn = ObjectAnimator.ofFloat(imageView, "scaleY", 0.5f, 1f).apply {
+            duration = 500 // Duration for zoom in
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+
+        val animatorSet = AnimatorSet().apply {
+            play(scaleXOut).with(scaleYOut) // Play zoom out animations together
+            play(rotate).after(scaleXOut) // Play rotate animation after zoom out
+            play(scaleXIn).with(scaleYIn).after(rotate) // Play zoom in animations after rotate
+        }
+
+        animatorSet.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {}
+            override fun onAnimationEnd(animation: Animator) {
+                animatorSet.start() // Restart animation to loop indefinitely
+            }
+            override fun onAnimationCancel(animation: Animator) {}
+            override fun onAnimationRepeat(animation: Animator) {}
+        })
+
+        animatorSet.start()
+    }
+
     private fun registerUser(name: String, email: String, notelp: String, password: String) {
         val request = RegisterRequest(name, email, notelp, password)
         RetrofitClient.instance.registerUser(request).enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.register_success), Toast.LENGTH_SHORT).show()
                     switchLogin()
                 } else {
-                    Toast.makeText(requireContext(), "Failed to register", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, getString(R.string.register_failed), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
-                Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Error: ${t.message}", Snackbar.LENGTH_SHORT).show()
             }
         })
     }

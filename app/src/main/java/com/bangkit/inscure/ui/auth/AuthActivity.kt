@@ -1,12 +1,13 @@
 package com.bangkit.inscure.ui.auth
 
-import android.content.Intent
+import android.annotation.SuppressLint
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.bangkit.inscure.R
 import com.bangkit.inscure.databinding.ActivityAuthBinding
-import com.bangkit.inscure.ui.main.MainActivity
 
 class AuthActivity : AppCompatActivity() {
 
@@ -16,11 +17,9 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        @Suppress("DEPRECATION")
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
+
+        setupWindow()
+
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
@@ -29,14 +28,23 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
-    fun routeToMainActivity() {
-        startActivity(Intent(this@AuthActivity, MainActivity::class.java))
+    @SuppressLint("ObsoleteSdkInt")
+    private fun setupWindow() {
+        if (Build.VERSION.SDK_INT >= 21) {
+            @Suppress("DEPRECATION")
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = Color.TRANSPARENT
+        }
+        if (Build.VERSION.SDK_INT >= 30) {
+            window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        }
     }
 
+    @Deprecated("Deprecated")
     override fun onBackPressed() {
+        @Suppress("DEPRECATION")
         super.onBackPressed()
         finishAffinity()
     }
-
 
 }

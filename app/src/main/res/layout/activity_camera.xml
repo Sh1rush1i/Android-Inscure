@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,7 +15,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_camera_container"
-        android:padding="12dp">
+        android:paddingHorizontal="12dp"
+        android:paddingTop="48dp"
+        android:paddingBottom="24dp">
+
         <ImageButton
             android:id="@+id/btn_back"
             android:layout_width="40dp"
@@ -22,7 +26,8 @@
             android:background="@null"
             android:contentDescription="@string/btn_camera_back"
             android:src="@drawable/ic_arrow_toolbar"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            tools:ignore="RedundantDescriptionCheck,TouchTargetSizeCheck" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -50,7 +55,7 @@
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/btn_shutter_camera"
             app:srcCompat="@drawable/ic_shutter"
-            app:tint="@color/purple_light_secondary" />
+            app:tint="@color/secondary_light" />
 
         <ImageView
             android:id="@+id/btn_switch"

@@ -1,5 +1,8 @@
 package com.bangkit.inscure.ui.auth
 
+import android.animation.Animator
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +10,8 @@ import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bangkit.inscure.R
@@ -17,6 +22,7 @@ import com.bangkit.inscure.network.RetrofitClient
 import com.bangkit.inscure.ui.main.MainActivity
 import com.bangkit.inscure.utils.Constanta
 import com.bangkit.inscure.utils.Helper
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,6 +52,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        zoomRotateAnimation(view)
 
         binding.btnAction.setOnClickListener {
             val email = binding.edLoginEmail.text.toString()
@@ -87,6 +95,50 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun zoomRotateAnimation(view: View) {
+        val imageView: ImageView = view.findViewById(R.id.imageView)
+
+        val scaleXOut = ObjectAnimator.ofFloat(imageView, "scaleX", 1f, 0.5f).apply {
+            duration = 500 // Duration for zoom out
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+        val scaleYOut = ObjectAnimator.ofFloat(imageView, "scaleY", 1f, 0.5f).apply {
+            duration = 500 // Duration for zoom out
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+
+        val rotate = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 360f).apply {
+            duration = 500 // Duration for fast rotation
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+
+        val scaleXIn = ObjectAnimator.ofFloat(imageView, "scaleX", 0.5f, 1f).apply {
+            duration = 500 // Duration for zoom in
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+        val scaleYIn = ObjectAnimator.ofFloat(imageView, "scaleY", 0.5f, 1f).apply {
+            duration = 500 // Duration for zoom in
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+
+        val animatorSet = AnimatorSet().apply {
+            play(scaleXOut).with(scaleYOut) // Play zoom out animations together
+            play(rotate).after(scaleXOut) // Play rotate animation after zoom out
+            play(scaleXIn).with(scaleYIn).after(rotate) // Play zoom in animations after rotate
+        }
+
+        animatorSet.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {}
+            override fun onAnimationEnd(animation: Animator) {
+                animatorSet.start() // Restart animation to loop indefinitely
+            }
+            override fun onAnimationCancel(animation: Animator) {}
+            override fun onAnimationRepeat(animation: Animator) {}
+        })
+
+        animatorSet.start()
+    }
+
     private fun loginUser(email: String, password: String) {
         val request = LoginRequest(email, password)
         RetrofitClient.instance.loginUser(request).enqueue(object : Callback<LoginResponse> {
@@ -100,18 +152,19 @@ class LoginFragment : Fragment() {
                     editor.putString("authToken", token)
                     editor.apply()
 
-                    Toast.makeText(requireContext(), "Login successful", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.login_success), Toast.LENGTH_SHORT).show()
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(intent)
                     requireActivity().finish()
                 } else {
-                    Toast.makeText(requireContext(), "Failed to login", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, getString(R.string.login_failed), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Error: ${t.message}", Snackbar.LENGTH_SHORT).show()
             }
         })
     }
 }
+

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_light"
+    android:background="@color/primary_dark"
     tools:context=".ui.main.MainActivity">
 
     <RelativeLayout
@@ -13,17 +13,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.airbnb.lottie.LottieAnimationView
+        <ImageView
             android:id="@+id/imageView"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="20dp"
-            android:transitionName="lottie"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/splashscreen"/>
+            android:padding="24dp"
+            android:src="@drawable/inscure"/>
 
         <TextView
             android:id="@+id/label_appName"
@@ -110,6 +108,7 @@
             android:background="@drawable/custom_signin_button"
             android:text="@string/btn_txt_signin"
             android:textSize="16sp"
+            android:textStyle="bold"
             android:transitionName="action"
             app:backgroundTint="@null"/>
     </LinearLayout>

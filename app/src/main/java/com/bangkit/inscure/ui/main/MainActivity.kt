@@ -4,6 +4,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.WindowManager
@@ -20,15 +22,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val fragmentHome = HomeFragment()
+    private val fragmentProfile = ProfileFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        @Suppress("DEPRECATION")
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
+        setupWindow()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -39,7 +38,12 @@ class MainActivity : AppCompatActivity() {
         @Suppress("DEPRECATION")
         binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-
+                R.id.navigation_home -> {
+                    switchFragment(fragmentHome)
+                }
+                R.id.navigation_profile -> {
+                    switchFragment(fragmentProfile)
+                }
             }
             true
         }
@@ -53,6 +57,18 @@ class MainActivity : AppCompatActivity() {
             requestPermission()
         } else {
             startActivity(Intent(this, CameraActivity::class.java))
+        }
+    }
+
+    @SuppressLint("ObsoleteSdkInt")
+    private fun setupWindow() {
+        if (Build.VERSION.SDK_INT >= 21) {
+            @Suppress("DEPRECATION")
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = Color.TRANSPARENT
+        }
+        if (Build.VERSION.SDK_INT >= 30) {
+            window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         }
     }
 

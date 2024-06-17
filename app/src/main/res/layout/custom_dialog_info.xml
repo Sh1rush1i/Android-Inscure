@@ -13,7 +13,7 @@
         android:fontFamily="sans-serif-medium"
         android:lineSpacingExtra="5dp"
         android:text="@string/dummy_text"
-        android:textColor="@color/purple_dark_secondary"
+        android:textColor="@color/secondary_dark"
         android:textSize="18sp"/>
 
     <Button
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:background="@color/purple_light"
+        android:background="@color/primary_dark"
         android:text="@string/btn_txt_ok"
         android:layout_marginTop="30dp"
         android:textColor="@color/white"

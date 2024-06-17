@@ -26,8 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            app:itemIconTint="@color/purple_light_secondary"
-            app:itemTextColor="@color/purple_light_secondary"
+            app:itemIconTint="@color/secondary_light"
+            app:itemTextColor="@color/secondary_light"
             app:menu="@menu/bottom_nav_menu" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
-        android:backgroundTint="@color/purple_light_secondary"
+        android:backgroundTint="@color/secondary_light"
         android:contentDescription="@string/open_cam"
         android:src="@drawable/add_a_photo_24px"
         android:tintMode="@color/white"

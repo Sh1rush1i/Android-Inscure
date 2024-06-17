@@ -1,7 +1,10 @@
 package com.bangkit.inscure.ui.camera
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -27,11 +30,7 @@ class CameraActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        @Suppress("DEPRECATION")
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
+        setupWindow()
 
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -39,7 +38,6 @@ class CameraActivity : AppCompatActivity() {
         binding.let {
             it.btnShutter.setOnClickListener {
                 takePhoto()
-                finish()
             }
             it.btnSwitch.setOnClickListener {
                 cameraSelector =
@@ -51,6 +49,7 @@ class CameraActivity : AppCompatActivity() {
                 startGallery()
             }
             it.btnBack.setOnClickListener {
+                @Suppress("DEPRECATION")
                 onBackPressed()
             }
         }
@@ -61,7 +60,7 @@ class CameraActivity : AppCompatActivity() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-            val imageAnalysis = ImageAnalysis.Builder()
+            @Suppress("DEPRECATION") val imageAnalysis = ImageAnalysis.Builder()
                 .setTargetResolution(Size(480, 720))
                 .build()
             val preview = Preview.Builder()
@@ -69,6 +68,7 @@ class CameraActivity : AppCompatActivity() {
                 .also {
                     it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
                 }
+            @Suppress("DEPRECATION")
             imageCapture = ImageCapture.Builder().setTargetResolution(Size(480, 720)).build()
             try {
                 cameraProvider.unbindAll()
@@ -101,6 +101,18 @@ class CameraActivity : AppCompatActivity() {
                 this@CameraActivity.finish()
                 startActivity(intent)
             }
+        }
+    }
+
+    @SuppressLint("ObsoleteSdkInt")
+    private fun setupWindow() {
+        if (Build.VERSION.SDK_INT >= 21) {
+            @Suppress("DEPRECATION")
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = Color.TRANSPARENT
+        }
+        if (Build.VERSION.SDK_INT >= 30) {
+            window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         }
     }
 

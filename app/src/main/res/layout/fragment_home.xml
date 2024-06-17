@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,14 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="34dp"
-        android:paddingVertical="34dp"
+        android:paddingTop="48dp"
+        android:paddingBottom="34dp"
         android:background="@drawable/custom_bg_home">
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/spa_24px"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/inscure"
             android:contentDescription="@string/app_name"
             app:tint="@color/white" />
 
@@ -25,20 +27,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/person_24px"
+            android:background="@null"
             android:contentDescription="@string/nav_profile"
+            android:src="@drawable/ic_history_24px"
             app:tint="@color/white"
-            android:background="@null"/>
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/welcome"
-            android:layout_below="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/icon"
             android:layout_marginTop="24dp"
             android:text="@string/welcome"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:layout_below="@+id/welcome"
@@ -64,21 +68,24 @@
             android:id="@+id/icon_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/zoom_in_24px"
-                app:tint="@color/purple_light_secondary" />
+                app:tint="@color/secondary_light"
+                tools:ignore="ImageContrastCheck" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_skin"
+                android:textColor="@color/secondary_light"
                 android:textSize="23sp"
                 android:textStyle="bold"
-                android:textColor="@color/purple_light_secondary"/>
+                tools:ignore="TextContrastCheck" />
 
         </LinearLayout>
 

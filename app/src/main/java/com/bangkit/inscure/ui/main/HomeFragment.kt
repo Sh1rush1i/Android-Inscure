@@ -1,7 +1,5 @@
 package com.bangkit.inscure.ui.main
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.inscure.databinding.FragmentHomeBinding
 import com.bangkit.inscure.ui.adapter.CarouselAdapter
-import com.bangkit.inscure.ui.auth.AuthActivity
 
 class HomeFragment : Fragment() {
 
@@ -19,6 +16,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        @Suppress("DEPRECATION")
         setHasOptionsMenu(true)
     }
 
@@ -50,19 +48,6 @@ class HomeFragment : Fragment() {
                 // Handle the click event, e.g., open the image in a new activity or show it in full screen
             }
         })
-
-        binding.logout.setOnClickListener {
-            // Clear the auth token from SharedPreferences
-            val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-            editor.remove("authToken")
-            editor.apply()
-
-            // Navigate to AuthActivity
-            val intent = Intent(requireContext(), AuthActivity::class.java)
-            startActivity(intent)
-            requireActivity().finish()
-        }
 
         // Return the root view from the binding
         return binding.root

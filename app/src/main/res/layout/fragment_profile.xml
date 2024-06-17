@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_bg_home"
+        android:orientation="vertical"
+        android:paddingTop="48dp"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:src="@drawable/person_24px"
+            app:tint="@color/white"/>
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/white"
+            tools:text="Jeneng"/>
+
+        <TextView
+            android:id="@+id/tv_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:textColor="@color/white"
+            tools:text="ID"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="24dp">
+
+        <RelativeLayout
+            android:id="@+id/btn_camera_permis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="18dp"
+            android:background="@drawable/custom_button">
+            <ImageView
+                android:id="@+id/icon_req"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/txt_camera_permission"
+                android:src="@drawable/ic_manage_accounts_24px"
+                app:tint="@color/primary_dark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_toEndOf="@id/icon_req"
+                android:text="@string/txt_camera_permission"
+                android:textColor="@color/primary_dark"
+                tools:ignore="TextContrastCheck" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_about_dev"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:padding="18dp"
+            android:background="@drawable/custom_button">
+            <ImageView
+                android:id="@+id/icon_aboutdev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/txt_aboutdev"
+                android:src="@drawable/ic_person_raised_hand_24px"
+                app:tint="@color/primary_dark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_toEndOf="@id/icon_aboutdev"
+                android:text="@string/txt_aboutdev"
+                android:textColor="@color/primary_dark"
+                tools:ignore="TextContrastCheck" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/light_red"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:text="@string/btn_txt_logout"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
