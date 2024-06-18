@@ -45,7 +45,20 @@ interface ApiService {
         @Query("p_id") predictionId: String,
         @Query("p_image") imageId: String
     ): Call<DeleteResponse>
+
+    @GET("/user/me")
+    fun getUserByToken(
+        @Header("Authorization") token: String
+    ): Call<UserResponse>
+
 }
+
+data class UserResponse(
+    val success: Boolean,
+    val message: String,
+    val code: Int,
+    val data: UserData
+)
 
 data class DeleteResponse(
     val success: Boolean,
@@ -108,7 +121,8 @@ data class UserData(
     val email: String,
     val notelp: String,
     val pass: String,
-    val role: String
+    val role: String,
+    val picture: String
 )
 
 data class DiseaseListResponse(

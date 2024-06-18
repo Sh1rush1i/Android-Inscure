@@ -28,13 +28,21 @@
             tools:text="Jeneng"/>
 
         <TextView
+            android:id="@+id/tv_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/white"
+            tools:text="1404514045"/>
+
+        <TextView
             android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="24dp"
             android:textColor="@color/white"
-            tools:text="ID"/>
+            tools:text="email@email.com"/>
     </LinearLayout>
 
     <LinearLayout
@@ -46,10 +54,35 @@
         android:layout_marginHorizontal="24dp">
 
         <RelativeLayout
+            android:id="@+id/btn_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="18dp"
+            android:background="@drawable/custom_button">
+            <ImageView
+                android:id="@+id/icon_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/txt_disease_history"
+                android:src="@drawable/ic_history_24px"
+                app:tint="@color/primary_dark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_toEndOf="@id/icon_history"
+                android:text="@string/txt_disease_history"
+                android:textColor="@color/primary_dark"
+                tools:ignore="TextContrastCheck" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/btn_camera_permis"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="18dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/custom_button">
             <ImageView
                 android:id="@+id/icon_req"

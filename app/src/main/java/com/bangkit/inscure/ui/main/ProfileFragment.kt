@@ -13,7 +13,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.bangkit.inscure.databinding.FragmentProfileBinding
+import com.bangkit.inscure.network.RetrofitClient
+import com.bangkit.inscure.network.UserResponse
 import com.bangkit.inscure.ui.auth.AuthActivity
+import com.bangkit.inscure.ui.disease.ListHistoryActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ProfileFragment : Fragment() {
 
@@ -44,11 +50,49 @@ class ProfileFragment : Fragment() {
             navigateToWeb()
         }
 
+        binding.btnHistory.setOnClickListener {
+            navigateToHistory()
+        }
+
+        // Fetch user profile
+        val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val authToken = sharedPreferences.getString("authToken", null)
+        authToken?.let {
+            fetchUserProfile(it)
+        }
+
         return binding.root
+    }
+
+    private fun fetchUserProfile(token: String) {
+        val apiService = RetrofitClient.instance
+        apiService.getUserByToken("Bearer $token").enqueue(object : Callback<UserResponse> {
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                if (response.isSuccessful) {
+                    val user = response.body()?.data
+                    user?.let {
+                        binding.tvUsername.text = it.name
+                        binding.tvNumber.text = it.notelp
+                        binding.tvEmail.text = it.email
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Failed to fetch user profile", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun navigateToWeb(){
         val intent = Intent(requireContext(), AboutdevActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun navigateToHistory(){
+        val intent = Intent(requireContext(), ListHistoryActivity::class.java)
         startActivity(intent)
     }
 
