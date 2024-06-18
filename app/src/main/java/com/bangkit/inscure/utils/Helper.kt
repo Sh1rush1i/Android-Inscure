@@ -19,9 +19,25 @@ import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 object Helper {
+
+    fun formatDate(inputDate: String): String {
+        return try {
+            // Input format: "2024-05-30T18:10:04.178895+07:00"
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
+            val date: Date = inputFormat.parse(inputDate) ?: return inputDate
+
+            // Output format: "dd MMM yyyy, HH:mm"
+            val outputFormat = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
+            outputFormat.format(date)
+        } catch (e: Exception) {
+            // If there's an error parsing the date, return the input date string
+            inputDate
+        }
+    }
 
     /** UI CONTROLLER **/
     // Custom dialog info builder

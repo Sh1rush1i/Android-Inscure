@@ -33,7 +33,17 @@ interface ApiService {
 
     @GET("/disease/{id}")
     fun getDiseaseById(@Path("id") id: String): Call<DiseaseResponseWrapper>
+
+    @GET("/prediction/list")
+    fun getPredictionHistory(@Header("Authorization") token: String): Call<PredictionHistoryResponse>
 }
+
+data class PredictionHistoryResponse(
+    val success: Boolean,
+    val message: String,
+    val code: Int,
+    val data: List<PredictionData>
+)
 
 data class PredictionResponse(
     val success: Boolean,

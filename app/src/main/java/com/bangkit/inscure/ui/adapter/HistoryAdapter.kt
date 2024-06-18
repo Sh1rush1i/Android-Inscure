@@ -5,40 +5,39 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bangkit.inscure.R
+import com.bangkit.inscure.network.PredictionData
+import com.bangkit.inscure.utils.Helper
 
-class HistoryAdapter(var context: Context, var arrayList: ArrayList<String>) :
+class HistoryAdapter(private val context: Context, private val predictions: List<PredictionData>) :
     RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
-    var onItemClickListener: OnItemClickListener? = null
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val ivDiseaseThumbnail: ImageView = view.findViewById(R.id.iv_disease_thumbnail)
+        val tvDiseaseName: TextView = view.findViewById(R.id.tv_disease_name)
+        val tvDate: TextView = view.findViewById(R.id.tv_date)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View = LayoutInflater.from(context).inflate(R.layout.item_disease, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_history, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Glide.with(context).load(arrayList[position]).into(holder.imageView)
-        holder.itemView.setOnClickListener { view: View? ->
-            onItemClickListener?.onClick(holder.imageView, arrayList[position])
-        }
+        val prediction = predictions[position]
+        holder.tvDiseaseName.text = prediction.hasil_prediksi
+        holder.tvDate.text = Helper.formatDate(prediction.tgl)
+
+        // Load image with Glide
+        Glide.with(context)
+            .load("${prediction.gambar}")
+            .into(holder.ivDiseaseThumbnail)
     }
 
     override fun getItemCount(): Int {
-        return arrayList.size
-    }
-
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var imageView: ImageView = itemView.findViewById(R.id.list_item_image)
-    }
-
-    fun setItemClickListener(listener: OnItemClickListener?) {
-        this.onItemClickListener = listener
-    }
-
-    interface OnItemClickListener {
-        fun onClick(imageView: ImageView?, path: String?)
+        return predictions.size
     }
 }

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/custom_bg_list"
-    android:layout_marginVertical="12dp"
+    android:layout_marginVertical="4dp"
     android:padding="24dp">
 
     <ImageView
@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/tv_disease_name"
         android:layout_toEndOf="@+id/iv_disease_thumbnail"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="12dp"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

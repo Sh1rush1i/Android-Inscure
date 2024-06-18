@@ -47,7 +47,7 @@
     <string name="txt_list_disease">List Disease</string>
     <string name="txt_disease_detail">Detail Disease</string>
     <string name="txt_disease_history">History Prediction</string>
-    <string name="txt_accracy">Accuracy : </string>
+    <string name="txt_date">Date : </string>
 
     <!-- Content Desc -->
     <string name="cd_image_skin">Skin Image</string>
