@@ -108,4 +108,11 @@
         android:layout_below="@+id/title_carousel"
         app:layoutManager="com.google.android.material.carousel.CarouselLayoutManager"/>
 
+    <Button
+        android:id="@+id/action_desease"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recycler"
+        android:text="ini dummy ke list detail"/>
+
 </RelativeLayout>

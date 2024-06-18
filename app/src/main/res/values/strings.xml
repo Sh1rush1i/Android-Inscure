@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">InsCure</string>
     <string name="welcome">Welcome to</string>
     <string name="copyright">Copyright @2024</string>
@@ -44,12 +44,17 @@
     <string name="txt_aboutdev">About Developer</string>
     <string name="txt_camera_permission">Camera Permission</string>
     <string name="txt_phone">Phone Number</string>
+    <string name="txt_list_disease">List Disease</string>
+    <string name="txt_disease_detail">Detail Disease</string>
+    <string name="txt_disease_history">History Prediction</string>
+    <string name="txt_accracy">Accuracy : </string>
 
     <!-- Content Desc -->
     <string name="cd_image_skin">Skin Image</string>
+    <string name="cd_disease_thumbnail">Disease thumbnail</string>
 
     <!-- Button text layout xml -->
-    <string name="btn_txt_ok">ok</string>
+    <string name="btn_txt_ok" tools:ignore="ButtonCase,Typos">ok</string>
     <string name="btn_txt_signin">Sign In</string>
     <string name="btn_txt_signup">Sign Up</string>
     <string name="btn_txt_logout">Logout</string>
@@ -64,7 +69,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="login_success">"Welcome to InsCure :')"</string>
-    <string name="register_success">"User registration succesful"</string>
+    <string name="register_success" tools:ignore="Typos">"User registration succesful"</string>
     <string name="register_failed">"User registration failed"</string>
 
 

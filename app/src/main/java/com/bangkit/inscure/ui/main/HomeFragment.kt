@@ -1,5 +1,6 @@
 package com.bangkit.inscure.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.inscure.databinding.FragmentHomeBinding
 import com.bangkit.inscure.ui.adapter.CarouselAdapter
+import com.bangkit.inscure.ui.auth.AuthActivity
+import com.bangkit.inscure.ui.disease.ListDiseaseActivity
 
 class HomeFragment : Fragment() {
 
@@ -26,6 +29,10 @@ class HomeFragment : Fragment() {
     ): View {
         // Inflate the layout using view binding
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        binding.actionDesease.setOnClickListener {
+            navigateList()
+        }
 
         // Use the binding to get the RecyclerView reference
         val recyclerView: RecyclerView = binding.recycler
@@ -51,5 +58,12 @@ class HomeFragment : Fragment() {
 
         // Return the root view from the binding
         return binding.root
+    }
+
+    private fun navigateList(){
+        // Navigate to AuthActivity
+        val intent = Intent(requireContext(), ListDiseaseActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
     }
 }
