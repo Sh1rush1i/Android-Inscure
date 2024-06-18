@@ -3,6 +3,7 @@ package com.bangkit.inscure.network
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -25,6 +26,9 @@ interface ApiService {
     fun loginUser(
         @Body requestBody: LoginRequest
     ): Call<LoginResponse>
+
+    @GET("/disease")
+    fun getAllDiseases(): Call<List<DiseaseResponse>>
 }
 
 data class PredictionResponse(
@@ -75,4 +79,10 @@ data class UserData(
     val notelp: String,
     val pass: String,
     val role: String
+)
+
+data class DiseaseResponse(
+    val id: String,
+    val name: String,
+    val description: String
 )
