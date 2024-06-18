@@ -8,6 +8,7 @@ import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 
 interface ApiService {
     @Multipart
@@ -28,7 +29,10 @@ interface ApiService {
     ): Call<LoginResponse>
 
     @GET("/disease")
-    fun getAllDiseases(): Call<List<DiseaseResponse>>
+    fun getAllDiseases(): Call<DiseaseListResponse>
+
+    @GET("/disease/{id}")
+    fun getDiseaseById(@Path("id") id: String): Call<DiseaseResponse>
 }
 
 data class PredictionResponse(
@@ -81,8 +85,15 @@ data class UserData(
     val role: String
 )
 
+data class DiseaseListResponse(
+    val success: Boolean,
+    val message: String,
+    val code: Int,
+    val data: List<DiseaseResponse>
+)
+
 data class DiseaseResponse(
     val id: String,
     val name: String,
-    val description: String
+    val description:String
 )

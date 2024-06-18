@@ -1,44 +1,46 @@
 package com.bangkit.inscure.ui.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.bangkit.inscure.R
+import com.bangkit.inscure.network.DiseaseResponse
+import com.bangkit.inscure.ui.disease.DetailDiseaseActivity
 
-class ListAdapter(var context: Context, var arrayList: ArrayList<String>) :
-    RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+class ListAdapter(private val diseaseList: List<DiseaseResponse>) :
+    RecyclerView.Adapter<ListAdapter.DiseaseViewHolder>() {
 
-    var onItemClickListener: OnItemClickListener? = null
+    private lateinit var context: Context
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View = LayoutInflater.from(context).inflate(R.layout.item_disease, parent, false)
-        return ViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiseaseViewHolder {
+        context = parent.context
+        val view = LayoutInflater.from(context).inflate(R.layout.item_disease, parent, false)
+        return DiseaseViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Glide.with(context).load(arrayList[position]).into(holder.imageView)
-        holder.itemView.setOnClickListener { view: View? ->
-            onItemClickListener?.onClick(holder.imageView, arrayList[position])
+    override fun onBindViewHolder(holder: DiseaseViewHolder, position: Int) {
+        val disease = diseaseList[position]
+        holder.bind(disease)
+
+        // Set click listener
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, DetailDiseaseActivity::class.java)
+            intent.putExtra("disease_id", disease.id) // Kirim ID penyakit ke DetailDiseaseActivity
+            context.startActivity(intent)
         }
     }
 
-    override fun getItemCount(): Int {
-        return arrayList.size
-    }
+    override fun getItemCount() = diseaseList.size
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var imageView: ImageView = itemView.findViewById(R.id.list_item_image)
-    }
+    inner class DiseaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val diseaseName: TextView = itemView.findViewById(R.id.tv_disease_name)
 
-    fun setItemClickListener(listener: OnItemClickListener?) {
-        this.onItemClickListener = listener
-    }
-
-    interface OnItemClickListener {
-        fun onClick(imageView: ImageView?, path: String?)
+        fun bind(disease: DiseaseResponse) {
+            diseaseName.text = disease.name
+        }
     }
 }

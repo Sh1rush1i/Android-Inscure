@@ -6,14 +6,23 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.inscure.databinding.ActivityListDiseaseBinding
+import com.bangkit.inscure.network.DiseaseListResponse
+import com.bangkit.inscure.network.RetrofitClient
+import com.bangkit.inscure.ui.adapter.ListAdapter
 import com.bangkit.inscure.ui.main.MainActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ListDiseaseActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityListDiseaseBinding
+    private lateinit var listAdapter: ListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,10 +35,39 @@ class ListDiseaseActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarDisease)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        // Initialize RecyclerView
+        binding.recyclerDisease.layoutManager = LinearLayoutManager(this)
+
+        // Fetch diseases from API
+        fetchDiseases()
+
         // Handle back press
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                    navigateMain()
+                navigateMain()
+            }
+        })
+    }
+
+    private fun fetchDiseases() {
+        val apiService = RetrofitClient.instance
+        apiService.getAllDiseases().enqueue(object : Callback<DiseaseListResponse> {
+            override fun onResponse(
+                call: Call<DiseaseListResponse>,
+                response: Response<DiseaseListResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val diseaseListResponse = response.body()!!
+                    val diseaseList = diseaseListResponse.data
+                    listAdapter = ListAdapter(diseaseList)
+                    binding.recyclerDisease.adapter = listAdapter
+                } else {
+                    Toast.makeText(this@ListDiseaseActivity, "Failed to fetch data", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<DiseaseListResponse>, t: Throwable) {
+                Toast.makeText(this@ListDiseaseActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }

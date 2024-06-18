@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bangkit.inscure.databinding.ActivityListHistoryBinding
 import com.bangkit.inscure.ui.main.MainActivity
 
-class ListHistoryActivity : AppCompatActivity() {
+class   ListHistoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityListHistoryBinding
 

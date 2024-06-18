@@ -1,14 +1,19 @@
 package com.bangkit.inscure.ui.disease
 
 import android.annotation.SuppressLint
-import android.content.Intent
+import android.content.ContentValues.TAG
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.bangkit.inscure.databinding.ActivityDetailDiseaseBinding
+import com.bangkit.inscure.network.DiseaseResponse
+import com.bangkit.inscure.network.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DetailDiseaseActivity : AppCompatActivity() {
 
@@ -26,22 +31,46 @@ class DetailDiseaseActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Handle back press
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                navigateToList()
+        binding.toolbarDetail.setNavigationOnClickListener {
+            navigateToList()
+        }
+
+        // Get disease ID from intent
+        val diseaseId = intent.getStringExtra("disease_id")
+
+        // Fetch disease detail from API
+        diseaseId?.let { fetchDiseaseDetail(it) }
+    }
+
+    private fun fetchDiseaseDetail(diseaseId: String) {
+        val apiService = RetrofitClient.instance
+        apiService.getDiseaseById(diseaseId).enqueue(object : Callback<DiseaseResponse> {
+            override fun onResponse(call: Call<DiseaseResponse>, response: Response<DiseaseResponse>) {
+                if (response.isSuccessful) {
+                    val disease = response.body()
+                    disease?.let {
+                        displayDiseaseDetail(it)
+                    }
+                } else {
+                    // Handle unsuccessful response
+                    Log.e(TAG, "Failed to fetch disease detail: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<DiseaseResponse>, t: Throwable) {
+                // Handle failure, show error message or retry logic
+                Log.e(TAG, "Error fetching disease detail", t)
             }
         })
     }
 
-    private fun navigateToList(){
-        val intent = Intent(this, ListDiseaseActivity::class.java)
-        startActivity(intent)
-        finish()
+    private fun displayDiseaseDetail(disease: DiseaseResponse) {
+        binding.tvDetailDiseaseTitle.text = disease.name
+        binding.tvDetailDisease.text = disease.description
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        navigateToList()
-        return true
+    private fun navigateToList() {
+        finish()
     }
 
     @SuppressLint("ObsoleteSdkInt")
