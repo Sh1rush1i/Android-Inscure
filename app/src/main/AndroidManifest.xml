@@ -33,6 +33,9 @@
             android:name=".ui.disease.ListDiseaseActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.disease.ListHistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.upload.UploadActivity"
             android:exported="false" />
         <activity
