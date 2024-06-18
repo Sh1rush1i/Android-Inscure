@@ -3,12 +3,14 @@ package com.bangkit.inscure.network
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     @Multipart
@@ -36,7 +38,21 @@ interface ApiService {
 
     @GET("/prediction/list")
     fun getPredictionHistory(@Header("Authorization") token: String): Call<PredictionHistoryResponse>
+
+    @DELETE("/prediction/del")
+    fun deletePrediction(
+        @Header("Authorization") token: String,
+        @Query("p_id") predictionId: String,
+        @Query("p_image") imageId: String
+    ): Call<DeleteResponse>
 }
+
+data class DeleteResponse(
+    val success: Boolean,
+    val message: String,
+    val code: Int,
+    val data: String
+)
 
 data class PredictionHistoryResponse(
     val success: Boolean,

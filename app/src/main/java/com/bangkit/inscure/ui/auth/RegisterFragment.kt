@@ -48,6 +48,7 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         zoomRotateAnimation(view)
+        animStop()
 
         binding.btnLogin.setOnClickListener {
             switchLogin()
@@ -79,10 +80,21 @@ class RegisterFragment : Fragment() {
                     )
                 }
                 else -> {
+                    animPlay()
                     registerUser(name, email, notelp, password)
                 }
             }
         }
+    }
+
+    private fun animPlay(){
+        binding.lotiieLoading.visibility = View.VISIBLE
+        binding.lotiieLoading.playAnimation()
+    }
+
+    private fun animStop(){
+        binding.lotiieLoading.visibility = View.INVISIBLE
+        binding.lotiieLoading.cancelAnimation()
     }
 
     private fun zoomRotateAnimation(view: View) {
@@ -136,13 +148,16 @@ class RegisterFragment : Fragment() {
                 if (response.isSuccessful) {
                     Toast.makeText(requireContext(), getString(R.string.register_success), Toast.LENGTH_SHORT).show()
                     switchLogin()
+                    animStop()
                 } else {
                     Snackbar.make(binding.root, getString(R.string.register_failed), Snackbar.LENGTH_SHORT).show()
+                    animStop()
                 }
             }
 
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                 Snackbar.make(binding.root, "Error: ${t.message}", Snackbar.LENGTH_SHORT).show()
+                animStop()
             }
         })
     }

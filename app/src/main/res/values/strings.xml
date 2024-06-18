@@ -48,6 +48,7 @@
     <string name="txt_disease_detail">Detail Disease</string>
     <string name="txt_disease_history">History Prediction</string>
     <string name="txt_date">Date : </string>
+    <string name="cd_delete">Delete button</string>
 
     <!-- Content Desc -->
     <string name="cd_image_skin">Skin Image</string>
@@ -67,7 +68,7 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="login_failed">"Email or Password incorrect"</string>
     <string name="login_success">"Welcome to InsCure :')"</string>
     <string name="register_success" tools:ignore="Typos">"User registration succesful"</string>
     <string name="register_failed">"User registration failed"</string>

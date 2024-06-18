@@ -54,6 +54,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         zoomRotateAnimation(view)
+        animStop()
 
         binding.btnAction.setOnClickListener {
             val email = binding.edLoginEmail.text.toString()
@@ -78,6 +79,7 @@ class LoginFragment : Fragment() {
                     )
                 }
                 else -> {
+                    animPlay()
                     loginUser(email, password)
                 }
             }
@@ -93,6 +95,16 @@ class LoginFragment : Fragment() {
                 commit()
             }
         }
+    }
+
+    private fun animPlay(){
+        binding.lotiieLoading.visibility = View.VISIBLE
+        binding.lotiieLoading.playAnimation()
+    }
+
+    private fun animStop(){
+        binding.lotiieLoading.visibility = View.INVISIBLE
+        binding.lotiieLoading.cancelAnimation()
     }
 
     private fun zoomRotateAnimation(view: View) {
@@ -154,14 +166,17 @@ class LoginFragment : Fragment() {
 
                     Toast.makeText(requireContext(), getString(R.string.login_success), Toast.LENGTH_SHORT).show()
                     val intent = Intent(requireContext(), MainActivity::class.java)
+                    animStop()
                     startActivity(intent)
                     requireActivity().finish()
                 } else {
+                    animStop()
                     Snackbar.make(binding.root, getString(R.string.login_failed), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                animStop()
                 Snackbar.make(binding.root, "Error: ${t.message}", Snackbar.LENGTH_SHORT).show()
             }
         })

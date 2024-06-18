@@ -8,10 +8,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.bangkit.inscure.R
 import com.bangkit.inscure.databinding.ActivityDetailDiseaseBinding
 import com.bangkit.inscure.network.DiseaseResponse
 import com.bangkit.inscure.network.DiseaseResponseWrapper
 import com.bangkit.inscure.network.RetrofitClient
+import com.bumptech.glide.Glide
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,12 +38,16 @@ class DetailDiseaseActivity : AppCompatActivity() {
             navigateToList()
         }
 
-        // Get disease ID from intent
+        // Get disease ID and image URL from intent
         val diseaseId = intent.getStringExtra("disease_id")
-        Log.d(TAG, "Received disease ID: $diseaseId")
+        val imageUrl = intent.getStringExtra("image_url")
+        Log.d(TAG, "Received disease ID: $diseaseId, image URL: $imageUrl")
 
         // Fetch disease detail from API
         diseaseId?.let { fetchDiseaseDetail(it) }
+
+        // Display image
+        imageUrl?.let { loadImage(it) }
     }
 
     private fun fetchDiseaseDetail(diseaseId: String) {
@@ -73,6 +79,14 @@ class DetailDiseaseActivity : AppCompatActivity() {
             binding.tvDetailDiseaseTitle.text = disease.name
             binding.tvDetailDisease.text = disease.description
         }
+    }
+
+    private fun loadImage(imageUrl: String) {
+        Glide.with(this)
+            .load(imageUrl)
+            .placeholder(R.drawable.person_24px) // Placeholder image
+            .error(R.drawable.person_24px) // Error image
+            .into(binding.ivImageDisease)
     }
 
     private fun navigateToList() {
