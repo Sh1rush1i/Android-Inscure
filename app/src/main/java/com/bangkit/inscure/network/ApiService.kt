@@ -32,7 +32,7 @@ interface ApiService {
     fun getAllDiseases(): Call<DiseaseListResponse>
 
     @GET("/disease/{id}")
-    fun getDiseaseById(@Path("id") id: String): Call<DiseaseResponse>
+    fun getDiseaseById(@Path("id") id: String): Call<DiseaseResponseWrapper>
 }
 
 data class PredictionResponse(
@@ -93,7 +93,16 @@ data class DiseaseListResponse(
 )
 
 data class DiseaseResponse(
-    val id: String,
+    val id: Int,
     val name: String,
-    val description:String
+    val headline: String,
+    val description: String
 )
+
+data class DiseaseResponseWrapper(
+    val success: Boolean,
+    val message: String,
+    val code: Int,
+    val data: DiseaseResponse
+)
+

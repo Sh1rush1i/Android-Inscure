@@ -10,6 +10,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.bangkit.inscure.databinding.ActivityDetailDiseaseBinding
 import com.bangkit.inscure.network.DiseaseResponse
+import com.bangkit.inscure.network.DiseaseResponseWrapper
 import com.bangkit.inscure.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -37,6 +38,7 @@ class DetailDiseaseActivity : AppCompatActivity() {
 
         // Get disease ID from intent
         val diseaseId = intent.getStringExtra("disease_id")
+        Log.d(TAG, "Received disease ID: $diseaseId")
 
         // Fetch disease detail from API
         diseaseId?.let { fetchDiseaseDetail(it) }
@@ -44,10 +46,11 @@ class DetailDiseaseActivity : AppCompatActivity() {
 
     private fun fetchDiseaseDetail(diseaseId: String) {
         val apiService = RetrofitClient.instance
-        apiService.getDiseaseById(diseaseId).enqueue(object : Callback<DiseaseResponse> {
-            override fun onResponse(call: Call<DiseaseResponse>, response: Response<DiseaseResponse>) {
+        apiService.getDiseaseById(diseaseId).enqueue(object : Callback<DiseaseResponseWrapper> {
+            override fun onResponse(call: Call<DiseaseResponseWrapper>, response: Response<DiseaseResponseWrapper>) {
                 if (response.isSuccessful) {
-                    val disease = response.body()
+                    val disease = response.body()?.data
+                    Log.d(TAG, "Disease fetched: $disease")
                     disease?.let {
                         displayDiseaseDetail(it)
                     }
@@ -57,7 +60,7 @@ class DetailDiseaseActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<DiseaseResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DiseaseResponseWrapper>, t: Throwable) {
                 // Handle failure, show error message or retry logic
                 Log.e(TAG, "Error fetching disease detail", t)
             }
@@ -65,8 +68,11 @@ class DetailDiseaseActivity : AppCompatActivity() {
     }
 
     private fun displayDiseaseDetail(disease: DiseaseResponse) {
-        binding.tvDetailDiseaseTitle.text = disease.name
-        binding.tvDetailDisease.text = disease.description
+        Log.d(TAG, "Displaying disease details: $disease")
+        runOnUiThread {
+            binding.tvDetailDiseaseTitle.text = disease.name
+            binding.tvDetailDisease.text = disease.description
+        }
     }
 
     private fun navigateToList() {

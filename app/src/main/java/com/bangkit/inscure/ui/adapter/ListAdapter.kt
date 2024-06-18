@@ -29,7 +29,7 @@ class ListAdapter(private val diseaseList: List<DiseaseResponse>) :
         // Set click listener
         holder.itemView.setOnClickListener {
             val intent = Intent(context, DetailDiseaseActivity::class.java)
-            intent.putExtra("disease_id", disease.id) // Kirim ID penyakit ke DetailDiseaseActivity
+            intent.putExtra("disease_id", disease.id.toString()) // Convert ID to String
             context.startActivity(intent)
         }
     }
