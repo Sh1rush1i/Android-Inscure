@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.inscure.databinding.FragmentHomeBinding
 import com.bangkit.inscure.ui.adapter.CarouselAdapter
-import com.bangkit.inscure.ui.auth.AuthActivity
+import com.bangkit.inscure.ui.camera.CameraActivity
 import com.bangkit.inscure.ui.disease.ListDiseaseActivity
 import com.bangkit.inscure.ui.disease.ListHistoryActivity
 import com.bangkit.inscure.ui.maps.MapActivity
@@ -40,7 +40,11 @@ class HomeFragment : Fragment() {
             navigatetoHistory()
         }
 
-        binding.menuAnim.setOnClickListener {
+        binding.btnScan.setOnClickListener{
+            openCam()
+        }
+
+        binding.btnActionMaps.setOnClickListener {
             navigatetoMap()
         }
 
@@ -49,11 +53,12 @@ class HomeFragment : Fragment() {
         val arrayList = ArrayList<String>()
 
         // Add multiple images to the ArrayList
-        arrayList.add("https://cdn.discordapp.com/attachments/1094703367995015189/1232664687313948752/sample_cancer_2.jpg?ex=66605573&is=665f03f3&hm=62d83e68413fe5667c0a5e98809329e265633bac991ef85d6bd78c57844a5030&")
-        arrayList.add("https://cdn.discordapp.com/attachments/1094703367995015189/1232664687892496394/sample_cancer_1.jpg?ex=66605573&is=665f03f3&hm=2299764b2daaa0e6e4446919de7f9c339784b1e59ee4b4fd53a0263f03cf0c5c&")
-        arrayList.add("https://cdn.discordapp.com/attachments/1094703367995015189/1232983999832653915/sample_non_cancer_1.png?ex=6660d615&is=665f8495&hm=618c37dcbb3e247177b1a34604758de06113c710d211195e22849ef86c3683a4&")
-        arrayList.add("https://cdn.discordapp.com/attachments/1094703367995015189/1232664687892496394/sample_cancer_1.jpg?ex=66605573&is=665f03f3&hm=2299764b2daaa0e6e4446919de7f9c339784b1e59ee4b4fd53a0263f03cf0c5c&")
-        arrayList.add("https://cdn.discordapp.com/attachments/1094703367995015189/1232983999522013184/sample_non_cancer_2.JPG?ex=6660d615&is=665f8495&hm=69995a35899f2da151ba5027bc0f7342b6bfc560ff52700d13985f0cae0b97b2&")
+        arrayList.add("https://storage.googleapis.com/example-bucket-test-cc-trw/static-imgs/healthy-skin-1.webp")
+        arrayList.add("https://storage.googleapis.com/example-bucket-test-cc-trw/static-imgs/Healthy-skin-2.webp")
+        arrayList.add("https://storage.googleapis.com/example-bucket-test-cc-trw/static-imgs/Healthy-skin-3.jpg")
+        arrayList.add("https://storage.googleapis.com/example-bucket-test-cc-trw/static-imgs/Healthy-skin-4.jpg")
+        arrayList.add("https://storage.googleapis.com/example-bucket-test-cc-trw/static-imgs/Healthy-skin-5.jpeg")
+        arrayList.add("https://storage.googleapis.com/example-bucket-test-cc-trw/static-imgs/Healthy-skin-6.webp")
 
         // Initialize the adapter with the current context and ArrayList
         val adapter = CarouselAdapter(requireContext(), arrayList)
@@ -68,6 +73,10 @@ class HomeFragment : Fragment() {
 
         // Return the root view from the binding
         return binding.root
+    }
+
+    private fun openCam() {
+        startActivity(Intent(requireContext(), CameraActivity::class.java))
     }
 
     private fun navigateList(){

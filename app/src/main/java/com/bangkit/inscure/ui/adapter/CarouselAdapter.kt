@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bangkit.inscure.R
 
-class CarouselAdapter(var context: Context, var arrayList: ArrayList<String>) :
+class CarouselAdapter(var context: Context, private var arrayList: ArrayList<String>) :
     RecyclerView.Adapter<CarouselAdapter.ViewHolder>() {
 
-    var onItemClickListener: OnItemClickListener? = null
+    private var onItemClickListener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View = LayoutInflater.from(context).inflate(R.layout.item_carousel, parent, false)

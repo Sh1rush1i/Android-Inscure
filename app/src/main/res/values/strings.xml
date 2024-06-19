@@ -51,7 +51,14 @@
     <string name="txt_date">Date : </string>
     <string name="txt_accuracy">Accuracy : </string>
     <string name="txt_menu_list">List Disease</string>
-
+    <string name="txt_profile_pic">Profile pic</string>
+    <string name="txt_cover">What we cover</string>
+    <string name="txt_cover_sub">Various utility we can provide to you</string>
+    <string name="txt_predict_menu">Predict your skin disease</string>
+    <string name="txt_healthy_skin">Healthy Skin</string>
+    <string name="txt_healthy_skin_sub">A Radiant and Clear Complexion Free from Blemishes</string>
+    <string name="txt_emergency">Emergency?</string>
+    <string name="txt_emergency_sub">Find the nearest healt facility</string>
 
     <!-- Content Desc -->
     <string name="cd_image_skin">Skin Image</string>

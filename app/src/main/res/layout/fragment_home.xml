@@ -81,13 +81,13 @@
                     android:layout_marginEnd="8dp"
                     android:src="@drawable/ic_conditions_24px"
                     app:tint="@color/primary_dark"
-                    tools:ignore="ImageContrastCheck" />
+                    tools:ignore="ContentDescription,ImageContrastCheck" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="What we cover"
+                    android:text="@string/txt_cover"
                     android:textColor="@color/primary_dark"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -95,18 +95,16 @@
 
             </LinearLayout>
 
-
             <TextView
                 android:id="@+id/tv_cover_sub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_cover"
-                android:layout_marginTop="-4dp"
-                android:text="Various utility we can provide to you"
+                android:text="@string/txt_cover_sub"
                 android:textColor="@color/primary_dark"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                tools:ignore="TextContrastCheck" />
+                tools:ignore="TextContrastCheck,VisualLintOverlap" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/menu_anim_scan"
@@ -147,7 +145,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
-                    android:text="Predict your skin disease"
+                    android:text="@string/txt_predict_menu"
                     android:textColor="@color/primary_dark"
                     android:textStyle="bold"
                     tools:ignore="TextContrastCheck" />
@@ -205,17 +203,113 @@
                             tools:ignore="TextContrastCheck" />
 
                     </LinearLayout>
+
                 </com.google.android.material.card.MaterialCardView>
+
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/tv_cover_second"
+                android:layout_below="@id/container_atas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_diagnosis_24px"
+                    app:tint="@color/primary_dark"
+                    tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/txt_healthy_skin"
+                    android:textColor="@color/primary_dark"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="TextContrastCheck" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_cover_sub_second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_cover_second"
+                android:text="@string/txt_healthy_skin_sub"
+                android:textColor="@color/primary_dark"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:ignore="TextContrastCheck" />
+
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler"
                 android:layout_width="match_parent"
                 android:layout_height="200sp"
-                android:layout_marginTop="8dp"
-                android:layout_marginHorizontal="24dp"
-                android:id="@+id/recycler"
-                android:layout_below="@+id/container_atas"
-                app:layoutManager="com.google.android.material.carousel.CarouselLayoutManager"/>
+                android:layout_below="@+id/tv_cover_sub_second"
+                android:layout_marginVertical="18dp"
+                app:layoutManager="com.google.android.material.carousel.CarouselLayoutManager"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btn_action_maps"
+                android:layout_below="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginBottom="120dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="18dp"
+                    android:layout_gravity="center"
+                    >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="78dp"
+                        android:layout_weight="1"
+                        android:contentDescription="@string/txt_emergency"
+                        android:src="@drawable/ic_medical_services_24px"
+                        app:tint="@color/primary_dark"
+                        tools:ignore="ImageContrastCheck" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/txt_emergency"
+                            android:textColor="@color/primary_dark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            tools:ignore="TextContrastCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:text="@string/txt_emergency_sub"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
         </RelativeLayout>
 
