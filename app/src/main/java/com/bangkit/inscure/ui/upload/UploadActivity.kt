@@ -72,6 +72,7 @@ class UploadActivity : AppCompatActivity() {
 
                     if (response.isSuccessful) {
                         binding.tvPrediction.text = response.body()?.data?.hasil_prediksi
+                        binding.tvConfidence.text = "${response.body()?.data?.confidence.toString()}%"
                     } else {
                         Toast.makeText(
                             this@UploadActivity,

@@ -59,6 +59,19 @@
             android:textSize="24sp"
             tools:text="Hayo apa coba"/>
 
+        <TextView
+            android:id="@+id/tv_confidence"
+            android:layout_below="@+id/tv_prediction"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:textColor="@color/white"
+            android:textStyle="bold|italic"
+            android:textSize="24sp"
+            tools:text="%"/>
+
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lotiie_loading"
             android:layout_width="120dp"

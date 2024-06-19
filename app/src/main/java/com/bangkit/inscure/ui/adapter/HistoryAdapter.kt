@@ -24,6 +24,7 @@ class HistoryAdapter(
         val tvDiseaseName: TextView = view.findViewById(R.id.tv_disease_name)
         val tvDate: TextView = view.findViewById(R.id.tv_date)
         val btnDelete: ImageButton = view.findViewById(R.id.btn_delete)
+        val tvconfidence : TextView = view.findViewById(R.id.tv_confidence)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,6 +36,7 @@ class HistoryAdapter(
         val prediction = predictions[position]
         holder.tvDiseaseName.text = prediction.hasil_prediksi
         holder.tvDate.text = Helper.formatDate(prediction.tgl)
+        holder.tvconfidence.text = "${prediction.confidence}%"
 
         // Load image with Glide
         Glide.with(context)

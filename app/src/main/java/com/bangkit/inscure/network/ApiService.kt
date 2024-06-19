@@ -85,6 +85,7 @@ data class PredictionData(
     val id: String,
     val gambar: String,
     val hasil_prediksi: String,
+    val confidence : Float,
     val tgl: String,
     val user_id: String
 )
