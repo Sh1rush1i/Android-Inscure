@@ -48,11 +48,13 @@
     <string name="txt_disease_detail">Detail Disease</string>
     <string name="txt_disease_history">History Prediction</string>
     <string name="txt_date">Date : </string>
-    <string name="cd_delete">Delete button</string>
+    <string name="txt_accuracy">Accuracy : </string>
+
 
     <!-- Content Desc -->
     <string name="cd_image_skin">Skin Image</string>
     <string name="cd_disease_thumbnail">Disease thumbnail</string>
+    <string name="cd_delete">Delete button</string>
 
     <!-- Button text layout xml -->
     <string name="btn_txt_ok" tools:ignore="ButtonCase,Typos">ok</string>
