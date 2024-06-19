@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -54,6 +55,10 @@ class ProfileFragment : Fragment() {
             navigateToHistory()
         }
 
+        binding.btnLocationPermis.setOnClickListener {
+            checkAndRequestLocationPermission()
+        }
+
         // Fetch user profile
         val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         val authToken = sharedPreferences.getString("authToken", null)
@@ -87,7 +92,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun navigateToWeb(){
-        val intent = Intent(requireContext(), AboutdevActivity::class.java)
+        val intent = Intent(requireContext(), WebViewActivity::class.java)
         startActivity(intent)
     }
 
@@ -107,6 +112,31 @@ class ProfileFragment : Fragment() {
         val intent = Intent(requireContext(), AuthActivity::class.java)
         startActivity(intent)
         requireActivity().finish()
+    }
+
+    private fun checkAndRequestLocationPermission() {
+        when {
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED -> {
+                // Permission is already granted
+                Toast.makeText(requireContext(), "Location permission is already granted", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                // Request permission
+                requestLocationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }
+    }
+
+    private val requestLocationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // Permission granted
+            Toast.makeText(requireContext(), "Location permission granted", Toast.LENGTH_SHORT).show()
+        } else {
+            // Permission denied
+            Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun requestCameraPermission() {

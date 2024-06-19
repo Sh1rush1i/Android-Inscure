@@ -37,18 +37,20 @@
     <string name="txt_register">Register</string>
     <string name="txt_auth_question_register">I have an account :)</string>
     <string name="txt_name">Name</string>
-    <string name="txt_preview_carousel">"My skin looks like one of these?"</string>
     <string name="txt_skin">Skin?</string>
     <string name="txt_prediction">Prediction : </string>
     <string name="txt_prediction_title">Prediction</string>
-    <string name="txt_aboutdev">About Developer</string>
+    <string name="txt_webvisit">Visit our official website</string>
+    <string name="txt_web">Official website</string>
     <string name="txt_camera_permission">Camera Permission</string>
+    <string name="txt_location_permission">Location Permission</string>
     <string name="txt_phone">Phone Number</string>
     <string name="txt_list_disease">List Disease</string>
     <string name="txt_disease_detail">Detail Disease</string>
     <string name="txt_disease_history">History Prediction</string>
     <string name="txt_date">Date : </string>
     <string name="txt_accuracy">Accuracy : </string>
+    <string name="txt_menu_list">List Disease</string>
 
 
     <!-- Content Desc -->
@@ -74,6 +76,7 @@
     <string name="login_success">"Welcome to InsCure :')"</string>
     <string name="register_success" tools:ignore="Typos">"User registration succesful"</string>
     <string name="register_failed">"User registration failed"</string>
+    <string name="title_activity_map">MapActivity</string>
 
 
 </resources>

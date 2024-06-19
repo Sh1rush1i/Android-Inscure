@@ -13,6 +13,7 @@ import com.bangkit.inscure.ui.adapter.CarouselAdapter
 import com.bangkit.inscure.ui.auth.AuthActivity
 import com.bangkit.inscure.ui.disease.ListDiseaseActivity
 import com.bangkit.inscure.ui.disease.ListHistoryActivity
+import com.bangkit.inscure.ui.maps.MapActivity
 
 class HomeFragment : Fragment() {
 
@@ -37,6 +38,10 @@ class HomeFragment : Fragment() {
 
         binding.btnHistory.setOnClickListener {
             navigatetoHistory()
+        }
+
+        binding.menuAnim.setOnClickListener {
+            navigatetoMap()
         }
 
         // Use the binding to get the RecyclerView reference
@@ -75,6 +80,13 @@ class HomeFragment : Fragment() {
     private fun navigatetoHistory(){
         // Navigate to AuthActivity
         val intent = Intent(requireContext(), ListHistoryActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
+    }
+
+    private fun navigatetoMap(){
+        // Navigate to AuthActivity
+        val intent = Intent(requireContext(), MapActivity::class.java)
         startActivity(intent)
         requireActivity().finish()
     }

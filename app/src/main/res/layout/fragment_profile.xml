@@ -103,6 +103,31 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/btn_location_permis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="18dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/custom_button">
+            <ImageView
+                android:id="@+id/icon_loc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/txt_location_permission"
+                android:src="@drawable/ic_location_on_24px"
+                app:tint="@color/primary_dark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_toEndOf="@id/icon_loc"
+                android:text="@string/txt_location_permission"
+                android:textColor="@color/primary_dark"
+                tools:ignore="TextContrastCheck" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/btn_about_dev"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -113,7 +138,7 @@
                 android:id="@+id/icon_aboutdev"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/txt_aboutdev"
+                android:contentDescription="@string/txt_webvisit"
                 android:src="@drawable/ic_person_raised_hand_24px"
                 app:tint="@color/primary_dark" />
 
@@ -122,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_toEndOf="@id/icon_aboutdev"
-                android:text="@string/txt_aboutdev"
+                android:text="@string/txt_webvisit"
                 android:textColor="@color/primary_dark"
                 tools:ignore="TextContrastCheck" />
         </RelativeLayout>
