@@ -56,63 +56,170 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/title_carousel"
+    <androidx.core.widget.NestedScrollView
         android:layout_below="@+id/container_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="34dp"
-        android:layout_marginTop="18dp">
+        android:padding="24dp">
 
-        <LinearLayout
-            android:id="@+id/icon_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            tools:ignore="UseCompoundDrawables">
+        <RelativeLayout
+            android:id="@+id/container_nested_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/zoom_in_24px"
-                app:tint="@color/secondary_light"
-                tools:ignore="ImageContrastCheck" />
-
-            <TextView
+            <!-- UI cover app -->
+            <LinearLayout
+                android:id="@+id/tv_cover"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_skin"
-                android:textColor="@color/secondary_light"
-                android:textSize="23sp"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_conditions_24px"
+                    app:tint="@color/primary_dark"
+                    tools:ignore="ImageContrastCheck" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="What we cover"
+                    android:textColor="@color/primary_dark"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="TextContrastCheck" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_cover_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_cover"
+                android:layout_marginTop="-4dp"
+                android:text="Various utility we can provide to you"
+                android:textColor="@color/primary_dark"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 tools:ignore="TextContrastCheck" />
 
-        </LinearLayout>
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/menu_anim_scan"
+                android:layout_below="@+id/tv_cover"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
 
-        <TextView
-            android:id="@+id/title_desc"
-            android:layout_below="@+id/icon_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_preview_carousel"
-            android:textSize="12sp"
-            android:textColor="@color/black"/>
-    </RelativeLayout>
+                android:layout_marginVertical="-8dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="visible"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/scan_anim"
+                tools:ignore="ImageContrastCheck" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="200sp"
-        android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="24dp"
-        android:id="@+id/recycler"
-        android:layout_below="@+id/title_carousel"
-        app:layoutManager="com.google.android.material.carousel.CarouselLayoutManager"/>
+            <LinearLayout
+                android:id="@+id/btn_scan"
+                android:layout_below="@+id/menu_anim_scan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-4dp"
+                android:gravity="center"
+                android:padding="18dp"
+                android:orientation="horizontal"
+                android:background="@drawable/custom_button">
 
-    <Button
-        android:id="@+id/action_desease"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/recycler"
-        android:text="ini dummy ke list detail"/>
+                <ImageView
+                    android:id="@+id/icon_scan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/cd_disease_thumbnail"
+                    android:src="@drawable/add_a_photo_24px"
+                    app:tint="@color/primary_dark"
+                    tools:ignore="ImageContrastCheck" />
+
+                <TextView
+                    android:id="@+id/tv_scan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:text="Predict your skin disease"
+                    android:textColor="@color/primary_dark"
+                    android:textStyle="bold"
+                    tools:ignore="TextContrastCheck" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/container_atas"
+                android:layout_below="@+id/btn_scan"
+                android:layout_marginVertical="18dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/menu_anim"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/disease_anim"
+                    tools:ignore="ImageContrastCheck" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/action_desease"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_margin="8dp"
+                    app:cardElevation="4dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/txt_list_disease"
+                            android:src="@drawable/ic_list_24px"
+                            app:tint="@color/primary_dark"
+                            tools:ignore="ImageContrastCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/txt_menu_list"
+                            android:textColor="@color/primary_dark"
+                            android:textStyle="bold"
+                            tools:ignore="TextContrastCheck" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="200sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="24dp"
+                android:id="@+id/recycler"
+                android:layout_below="@+id/container_atas"
+                app:layoutManager="com.google.android.material.carousel.CarouselLayoutManager"/>
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
 
 </RelativeLayout>

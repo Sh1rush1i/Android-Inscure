@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature android:name="android.hardware.camera.any" />
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
@@ -27,6 +27,15 @@
         android:theme="@style/Theme.InsCure"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API}" />
+
+        <activity
+            android:name=".ui.maps.MapActivity"
+            android:exported="false"
+            android:label="@string/title_activity_map" />
         <activity
             android:name=".ui.disease.DetailDiseaseActivity"
             android:exported="false" />
@@ -48,7 +57,7 @@
             android:exported="false"
             android:theme="@style/Theme.InsCure" />
         <activity
-            android:name=".ui.main.AboutdevActivity"
+            android:name=".ui.main.WebViewActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.InsCure" />
         <activity android:name=".ui.auth.AuthActivity" />

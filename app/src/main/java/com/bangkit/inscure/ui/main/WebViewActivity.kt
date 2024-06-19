@@ -6,19 +6,21 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
+import android.webkit.WebChromeClient
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import com.bangkit.inscure.databinding.ActivityAboutdevBinding
+import com.bangkit.inscure.databinding.ActivityWebviewBinding
 
-class AboutdevActivity : AppCompatActivity() {
+class WebViewActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAboutdevBinding
+    private lateinit var binding: ActivityWebviewBinding
 
     @SuppressLint("SetJavaScriptEnabled", "ObsoleteSdkInt")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAboutdevBinding.inflate(layoutInflater)
+        binding = ActivityWebviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupWindow()
@@ -28,10 +30,21 @@ class AboutdevActivity : AppCompatActivity() {
 
         // Initialize the WebView using ViewBinding
         val webView: WebView = binding.webView
+        webView.clearCache(true)
         webView.settings.javaScriptEnabled = true
+        webView.settings.loadWithOverviewMode = true
+        webView.settings.useWideViewPort = true
+        webView.settings.domStorageEnabled = true
+        webView.settings.setSupportZoom(true)
+        webView.settings.builtInZoomControls = true
+        webView.settings.displayZoomControls = false
+
+        // Set WebViewClient to handle navigation within the WebView
+        webView.webViewClient = WebViewClient()
+        webView.webChromeClient = WebChromeClient()
 
         // Load the URL
-        webView.loadUrl("https://github.com/Sh1rush1i")
+        webView.loadUrl("http://apt-entropy-275011.et.r.appspot.com/")
 
         // Handle back press
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {

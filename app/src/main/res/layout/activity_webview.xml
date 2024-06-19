@@ -14,7 +14,7 @@
         app:titleTextColor="@color/white"
         android:paddingTop="32dp"
         android:paddingBottom="12dp"
-        app:title="@string/txt_aboutdev"/>
+        app:title="@string/txt_web"/>
 
     <WebView
         android:id="@+id/webView"
