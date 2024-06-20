@@ -4,48 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/custom_bg_gradient"
+    android:paddingTop="48dp"
     tools:context=".ui.upload.UploadActivity">
+
+    <RelativeLayout
+        android:id="@+id/container_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_prediction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:titleTextColor="@color/white"
+            app:title="@string/txt_prediction">
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <ImageButton
+            android:id="@+id/btn_home"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/nav_home"
+            android:src="@drawable/home_24px"
+            android:background="@null"
+            android:layout_marginEnd="24dp"
+            app:tint="@color/white"/>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/container_iv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/custom_bg_home"
+        android:layout_below="@+id/container_title"
         android:paddingTop="48dp"
         android:paddingBottom="24dp"
         android:paddingHorizontal="24dp">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_prediction"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            tools:ignore="TextSizeCheck" />
-
-        <ImageView
-            android:id="@+id/skin_image"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/container_skin_image"
             android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:layout_below="@+id/title"
-            android:layout_marginTop="24dp"
+            android:layout_height="wrap_content"
             android:background="@null"
-            android:contentDescription="@string/cd_image_skin"
-            android:scaleType="fitCenter"
-            tools:ignore="ImageContrastCheck"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:cardElevation="8dp">
+            <ImageView
+                android:id="@+id/skin_image"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:background="@null"
+                android:contentDescription="@string/cd_image_skin"
+                android:scaleType="centerCrop"
+                tools:ignore="ImageContrastCheck"
+                tools:srcCompat="@tools:sample/avatars" />
+
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/prediction_title"
-            android:layout_below="@+id/skin_image"
-            android:layout_marginTop="24dp"
-            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/container_skin_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:text="@string/txt_prediction"
             android:textColor="@color/white"
-            android:text="@string/txt_prediction"/>
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/tv_prediction"
@@ -94,8 +119,8 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/custom_signin_button"
         android:text="@string/btn_predict"
-        android:textStyle="bold"
         android:textColor="@color/white"
+        android:textStyle="bold"
         app:backgroundTint="@color/secondary_light"
-        tools:ignore="TextContrastCheck,VisualLintButtonSize" />
+        tools:ignore="TextContrastCheck,VisualLintButtonSize,TouchTargetSizeCheck" />
 </RelativeLayout>

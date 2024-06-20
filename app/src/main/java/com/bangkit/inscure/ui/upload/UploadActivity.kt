@@ -2,6 +2,7 @@ package com.bangkit.inscure.ui.upload
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
@@ -10,10 +11,13 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.bangkit.inscure.databinding.ActivityUploadBinding
 import com.bangkit.inscure.network.RetrofitClient
 import com.bangkit.inscure.network.PredictionResponse
+import com.bangkit.inscure.ui.camera.CameraActivity
+import com.bangkit.inscure.ui.main.MainActivity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -33,6 +37,20 @@ class UploadActivity : AppCompatActivity() {
         binding = ActivityUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbarPrediction)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        binding.btnHome.setOnClickListener {
+            navigateMain()
+        }
+
+        // Handle back press
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                navigateCam()
+            }
+        })
+
         @Suppress("DEPRECATION")
         val myFile = intent?.getSerializableExtra(EXTRA_PHOTO_RESULT) as File
         val bitmap = BitmapFactory.decodeFile(myFile.path)
@@ -41,6 +59,23 @@ class UploadActivity : AppCompatActivity() {
         binding.btnAdd.setOnClickListener {
             uploadImage(myFile)
         }
+    }
+
+    private fun navigateMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun navigateCam() {
+        val intent = Intent(this, CameraActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        navigateCam()
+        return true
     }
 
     private fun uploadImage(file: File) {
@@ -62,6 +97,7 @@ class UploadActivity : AppCompatActivity() {
 
         RetrofitClient.instance.uploadImage(authHeader, body)
             .enqueue(object : Callback<PredictionResponse> {
+                @SuppressLint("SetTextI18n")
                 override fun onResponse(
                     call: Call<PredictionResponse>,
                     response: Response<PredictionResponse>
