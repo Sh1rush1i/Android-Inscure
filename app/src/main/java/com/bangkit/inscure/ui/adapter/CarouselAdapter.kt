@@ -21,7 +21,7 @@ class CarouselAdapter(var context: Context, private var arrayList: ArrayList<Str
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Glide.with(context).load(arrayList[position]).into(holder.imageView)
-        holder.itemView.setOnClickListener { view: View? ->
+        holder.itemView.setOnClickListener { _: View? ->
             onItemClickListener?.onClick(holder.imageView, arrayList[position])
         }
     }

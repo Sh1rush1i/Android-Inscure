@@ -59,6 +59,12 @@
     <string name="txt_healthy_skin_sub">A Radiant and Clear Complexion Free from Blemishes</string>
     <string name="txt_emergency">Emergency?</string>
     <string name="txt_emergency_sub">Find the nearest healt facility</string>
+    <string name="txt_get_started">Get Started</string>
+    <string name="txt_intro">InsCure is an innovative application designed to provide accurate predictions for skin diseases using advanced machine learning models.</string>
+    <string name="txt_intro_second">With just a simple image upload, users can receive fast and reliable predictions about various skin conditions, helping them take proactive steps towards their health.</string>
+    <string name="txt_welcome">Welcome to Inscure</string>
+    <string name="txt_next_page">Swipe for next page</string>
+
 
     <!-- Content Desc -->
     <string name="cd_image_skin">Skin Image</string>
@@ -84,6 +90,8 @@
     <string name="register_success" tools:ignore="Typos">"User registration succesful"</string>
     <string name="register_failed">"User registration failed"</string>
     <string name="title_activity_map">MapActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

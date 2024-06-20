@@ -20,7 +20,7 @@ import com.bangkit.inscure.ui.main.MainActivity
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
 
-    private val splashScreenDuration: Long = 3000 // 2 seconds
+    private val splashScreenDuration: Long = 3000 // 3 seconds
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,16 +32,21 @@ class SplashScreenActivity : AppCompatActivity() {
         @Suppress("DEPRECATION")
         Handler().postDelayed({
             val sharedPreferences: SharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+            val isFirstTime = sharedPreferences.getBoolean("isFirstTime", true)
             val authToken: String? = sharedPreferences.getString("authToken", null)
 
-            if (!authToken.isNullOrEmpty()) {
-                // Token exists, navigate to MainActivity
-                val intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
-                startActivity(intent)
+            if (isFirstTime) {
+                // First time opening the app, navigate to IntroActivity
+                startActivity(Intent(this@SplashScreenActivity, IntroActivity::class.java))
+                sharedPreferences.edit().putBoolean("isFirstTime", false).apply()
             } else {
-                // No token, navigate to AuthActivity
-                val intent = Intent(this@SplashScreenActivity, AuthActivity::class.java)
-                startActivity(intent)
+                if (!authToken.isNullOrEmpty()) {
+                    // Token exists, navigate to MainActivity
+                    startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
+                } else {
+                    // No token, navigate to AuthActivity
+                    startActivity(Intent(this@SplashScreenActivity, AuthActivity::class.java))
+                }
             }
 
             finish()
@@ -68,7 +73,6 @@ class SplashScreenActivity : AppCompatActivity() {
 
         animatorSet.start()
     }
-
 
     @SuppressLint("ObsoleteSdkInt")
     private fun setupWindow() {

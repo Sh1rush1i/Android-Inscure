@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.bangkit.inscure.databinding.FragmentProfileBinding
@@ -24,7 +23,8 @@ import retrofit2.Response
 
 class ProfileFragment : Fragment() {
 
-    private lateinit var binding: FragmentProfileBinding
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +36,29 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout using view binding
-        binding = FragmentProfileBinding.inflate(inflater, container, false)
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupListeners()
+
+        // Fetch user profile
+        val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val authToken = sharedPreferences.getString("authToken", null)
+        authToken?.let {
+            fetchUserProfile(it)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun setupListeners() {
         binding.btnLogout.setOnClickListener {
             logOut()
         }
@@ -47,7 +67,7 @@ class ProfileFragment : Fragment() {
             requestCameraPermission()
         }
 
-        binding.btnAboutDev.setOnClickListener{
+        binding.btnAboutDev.setOnClickListener {
             navigateToWeb()
         }
 
@@ -58,15 +78,6 @@ class ProfileFragment : Fragment() {
         binding.btnLocationPermis.setOnClickListener {
             checkAndRequestLocationPermission()
         }
-
-        // Fetch user profile
-        val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        val authToken = sharedPreferences.getString("authToken", null)
-        authToken?.let {
-            fetchUserProfile(it)
-        }
-
-        return binding.root
     }
 
     private fun fetchUserProfile(token: String) {
@@ -91,17 +102,17 @@ class ProfileFragment : Fragment() {
         })
     }
 
-    private fun navigateToWeb(){
+    private fun navigateToWeb() {
         val intent = Intent(requireContext(), WebViewActivity::class.java)
         startActivity(intent)
     }
 
-    private fun navigateToHistory(){
+    private fun navigateToHistory() {
         val intent = Intent(requireContext(), ListHistoryActivity::class.java)
         startActivity(intent)
     }
 
-    private fun logOut(){
+    private fun logOut() {
         // Clear the auth token from SharedPreferences
         val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
@@ -145,35 +156,22 @@ class ProfileFragment : Fragment() {
                 Manifest.permission.CAMERA
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.CAMERA),
-                CAMERA_PERMISSION_REQUEST_CODE
-            )
+            requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
         } else {
             Toast.makeText(requireContext(), "Camera permission already granted", Toast.LENGTH_SHORT).show()
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        @Suppress("DEPRECATION")
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                Toast.makeText(requireContext(), "Camera permission granted", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireContext(), "Camera permission denied", Toast.LENGTH_SHORT).show()
-            }
+    private val requestCameraPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // Permission granted
+            Toast.makeText(requireContext(), "Camera permission granted", Toast.LENGTH_SHORT).show()
+        } else {
+            // Permission denied
+            Toast.makeText(requireContext(), "Camera permission denied", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    companion object {
-        private const val CAMERA_PERMISSION_REQUEST_CODE = 1001
     }
 
 }
