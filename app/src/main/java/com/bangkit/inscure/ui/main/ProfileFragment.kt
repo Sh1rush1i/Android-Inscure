@@ -4,19 +4,26 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.bangkit.inscure.R
 import com.bangkit.inscure.databinding.FragmentProfileBinding
 import com.bangkit.inscure.network.RetrofitClient
 import com.bangkit.inscure.network.UserResponse
 import com.bangkit.inscure.ui.auth.AuthActivity
 import com.bangkit.inscure.ui.disease.ListHistoryActivity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import jp.wasabeef.glide.transformations.CropCircleWithBorderTransformation
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,6 +44,9 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
+
+        playAnimText()
+
         return binding.root
     }
 
@@ -52,6 +62,32 @@ class ProfileFragment : Fragment() {
             fetchUserProfile(it)
         }
     }
+
+    private fun playAnimText() {
+        val context = requireContext()
+
+        // Load animations
+        val slideInFadeIn = AnimationUtils.loadAnimation(context, R.anim.slide_in_right_fade_in)
+        val slideInFadeInLeft = AnimationUtils.loadAnimation(context, R.anim.slide_in_left_in)
+        val slideInFadeInUp = AnimationUtils.loadAnimation(context, R.anim.slide_in_up_fade_in)
+        val slideInFadeInBottom = AnimationUtils.loadAnimation(context, R.anim.slide_in_bottom_fade_in)
+
+        // Apply animations to views
+        applyAnimation(binding.ivProfilePicture, slideInFadeInUp)
+        applyAnimation(binding.tvUsername, slideInFadeInBottom)
+        applyAnimation(binding.tvNumber, slideInFadeInBottom)
+        applyAnimation(binding.tvEmail, slideInFadeInBottom)
+        applyAnimation(binding.btnHistory, slideInFadeIn)
+        applyAnimation(binding.btnCameraPermis, slideInFadeInLeft)
+        applyAnimation(binding.btnLocationPermis, slideInFadeIn)
+        applyAnimation(binding.btnAboutDev, slideInFadeInLeft)
+        applyAnimation(binding.btnLogout, slideInFadeIn)
+    }
+
+    private fun applyAnimation(view: View, animation: Animation) {
+        view.startAnimation(animation)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -87,6 +123,13 @@ class ProfileFragment : Fragment() {
                 if (response.isSuccessful) {
                     val user = response.body()?.data
                     user?.let {
+                        Glide.with(requireContext())
+                            .load(it.picture)
+                            .transform(CircleCrop(), CropCircleWithBorderTransformation(8, Color.WHITE))
+                            .placeholder(R.drawable.person_24px)
+                            .error(R.drawable.person_24px)
+                            .into(binding.ivProfilePicture)
+
                         binding.tvUsername.text = it.name
                         binding.tvNumber.text = it.notelp
                         binding.tvEmail.text = it.email
@@ -101,6 +144,7 @@ class ProfileFragment : Fragment() {
             }
         })
     }
+
 
     private fun navigateToWeb() {
         val intent = Intent(requireContext(), WebViewActivity::class.java)

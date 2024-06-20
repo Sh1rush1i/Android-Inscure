@@ -6,7 +6,10 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.WindowManager
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.bangkit.inscure.R
 import com.bangkit.inscure.databinding.ActivityDetailDiseaseBinding
@@ -29,6 +32,7 @@ class DetailDiseaseActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupWindow()
+        playAnimLayout()
 
         setSupportActionBar(binding.toolbarDetail)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -48,6 +52,24 @@ class DetailDiseaseActivity : AppCompatActivity() {
 
         // Display image
         imageUrl?.let { loadImage(it) }
+    }
+
+    private fun playAnimLayout() {
+        val context = this
+
+        // Load animations
+        val slideInFadeIn = AnimationUtils.loadAnimation(context, R.anim.slide_in_right_fade_in)
+        val slideInFadeInBottom = AnimationUtils.loadAnimation(context, R.anim.slide_in_bottom_fade_in)
+        val fadeIn = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+
+        // Apply animations to views
+        applyAnimation(binding.tvDetailDiseaseTitle, slideInFadeIn)
+        applyAnimation(binding.ivImageDisease, fadeIn)
+        applyAnimation(binding.containerTextDetail, slideInFadeInBottom)
+    }
+
+    private fun applyAnimation(view: View, animation: Animation) {
+        view.startAnimation(animation)
     }
 
     private fun fetchDiseaseDetail(diseaseId: String) {
@@ -95,13 +117,20 @@ class DetailDiseaseActivity : AppCompatActivity() {
 
     @SuppressLint("ObsoleteSdkInt")
     private fun setupWindow() {
-        if (Build.VERSION.SDK_INT >= 21) {
+        // For SDK version 24 (Nougat) and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             @Suppress("DEPRECATION")
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = Color.TRANSPARENT
         }
-        if (Build.VERSION.SDK_INT >= 30) {
-            window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+
+        // For SDK version 30 (Android 11) and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.setDecorFitsSystemWindows(false)
+        } else {
+            // For SDK versions below 30
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         }
     }
 }

@@ -10,9 +10,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import com.bangkit.inscure.R
 import com.bangkit.inscure.databinding.ActivityUploadBinding
 import com.bangkit.inscure.network.RetrofitClient
 import com.bangkit.inscure.network.PredictionResponse
@@ -29,13 +32,15 @@ import java.io.File
 class UploadActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUploadBinding
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setupWindow()
-
         binding = ActivityUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setupWindow()
+        playAnimLayout()
 
         setSupportActionBar(binding.toolbarPrediction)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -57,8 +62,26 @@ class UploadActivity : AppCompatActivity() {
         binding.skinImage.setImageBitmap(bitmap)
 
         binding.btnAdd.setOnClickListener {
+            binding.tvPrediction.text = " "
             uploadImage(myFile)
         }
+    }
+
+    private fun playAnimLayout() {
+        val context = this
+
+        val slideInFadeInTop = AnimationUtils.loadAnimation(context, R.anim.slide_in_up_fade_in)
+        val slideInFadeInBottom = AnimationUtils.loadAnimation(context, R.anim.slide_in_bottom_fade_in)
+        val fadeIn = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+
+        applyAnimation(binding.toolbarPrediction, slideInFadeInTop)
+        applyAnimation(binding.containerSkinImage, fadeIn)
+        applyAnimation(binding.predictionTitle, slideInFadeInBottom)
+        applyAnimation(binding.tvPrediction, slideInFadeInBottom)
+    }
+
+    private fun applyAnimation(view: View, animation: Animation) {
+        view.startAnimation(animation)
     }
 
     private fun navigateMain() {
@@ -132,13 +155,20 @@ class UploadActivity : AppCompatActivity() {
 
     @SuppressLint("ObsoleteSdkInt")
     private fun setupWindow() {
-        if (Build.VERSION.SDK_INT >= 21) {
+        // For SDK version 24 (Nougat) and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             @Suppress("DEPRECATION")
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = Color.TRANSPARENT
         }
-        if (Build.VERSION.SDK_INT >= 30) {
-            window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+
+        // For SDK version 30 (Android 11) and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.setDecorFitsSystemWindows(false)
+        } else {
+            // For SDK versions below 30
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         }
     }
 
@@ -147,3 +177,4 @@ class UploadActivity : AppCompatActivity() {
         const val EXTRA_CAMERA_MODE = "CAMERA_MODE"
     }
 }
+

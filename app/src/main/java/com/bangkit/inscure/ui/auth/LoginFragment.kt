@@ -11,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -48,6 +50,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        playAnimLayout()
         return binding.root
     }
 
@@ -93,9 +96,33 @@ class LoginFragment : Fragment() {
                 addSharedElement(binding.edLoginEmail, "email")
                 addSharedElement(binding.edLoginPassword, "password")
                 addSharedElement(binding.containerMisc, "misc")
+                addSharedElement(binding.btnAction, "action")
                 commit()
             }
         }
+    }
+
+    private fun playAnimLayout() {
+        val context = requireContext()
+
+        // Load animations
+        val slideInFadeIn = AnimationUtils.loadAnimation(context, R.anim.slide_in_right_fade_in)
+        val slideInFadeInUp = AnimationUtils.loadAnimation(context, R.anim.slide_in_up_fade_in)
+        val slideInFadeInBottom = AnimationUtils.loadAnimation(context, R.anim.slide_in_bottom_fade_in)
+        val fadeIn = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+
+        // Apply animations to views
+        applyAnimation(binding.imageView, slideInFadeInUp)
+        applyAnimation(binding.labelAuth, slideInFadeInBottom)
+        applyAnimation(binding.labelAppname, fadeIn)
+        applyAnimation(binding.edLoginEmail, slideInFadeIn)
+        applyAnimation(binding.edLoginPassword, slideInFadeIn)
+        applyAnimation(binding.containerMisc, slideInFadeInBottom)
+        applyAnimation(binding.btnAction, slideInFadeIn)
+    }
+
+    private fun applyAnimation(view: View, animation: Animation) {
+        view.startAnimation(animation)
     }
 
     private fun animPlay(){

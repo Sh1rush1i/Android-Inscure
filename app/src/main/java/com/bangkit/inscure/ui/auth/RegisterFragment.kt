@@ -10,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
 import com.bangkit.inscure.databinding.FragmentRegisterBinding
@@ -42,6 +44,7 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        playAnimLayout()
         return binding.root
     }
 
@@ -86,6 +89,31 @@ class RegisterFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun playAnimLayout() {
+        val context = requireContext()
+
+        // Load animations
+        val slideInFadeInLeft = AnimationUtils.loadAnimation(context, R.anim.slide_in_left_in)
+        val slideInFadeInUp = AnimationUtils.loadAnimation(context, R.anim.slide_in_up_fade_in)
+        val slideInFadeInBottom = AnimationUtils.loadAnimation(context, R.anim.slide_in_bottom_fade_in)
+        val fadeIn = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+
+        // Apply animations to views
+        applyAnimation(binding.imageView, slideInFadeInUp)
+        applyAnimation(binding.labelAuth, slideInFadeInBottom)
+        applyAnimation(binding.labelAppname, fadeIn)
+        applyAnimation(binding.edRegisterName, slideInFadeInLeft)
+        applyAnimation(binding.edRegisterNotelp, slideInFadeInLeft)
+        applyAnimation(binding.edRegisterEmail, slideInFadeInLeft)
+        applyAnimation(binding.edRegisterPassword, slideInFadeInLeft)
+        applyAnimation(binding.containerMisc, slideInFadeInBottom)
+        applyAnimation(binding.btnAction, slideInFadeInLeft)
+    }
+
+    private fun applyAnimation(view: View, animation: Animation) {
+        view.startAnimation(animation)
     }
 
     private fun animPlay(){
@@ -170,6 +198,7 @@ class RegisterFragment : Fragment() {
             addSharedElement(binding.edRegisterEmail, "email")
             addSharedElement(binding.edRegisterPassword, "password")
             addSharedElement(binding.containerMisc, "misc")
+            addSharedElement(binding.btnAction, "action")
             commit()
         }
     }

@@ -26,6 +26,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -88,13 +89,21 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     private fun getUserLocation() {
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            location?.let {
-                val userLatLng = LatLng(it.latitude, it.longitude)
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15f))
-                fetchHealthFacilities(userLatLng)
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                location?.let {
+                    val userLatLng = LatLng(it.latitude, it.longitude)
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15f))
+                    fetchHealthFacilities(userLatLng)
+                } ?: run {
+                    // Handle the case where location is null
+                    showSnackbar("Location is null, please ensure your location services are enabled.")
+                }
             }
-        }
+            .addOnFailureListener { exception ->
+                // Handle the failure case
+                showSnackbar("Failed to get location: ${exception.message}")
+            }
     }
 
     private fun fetchHealthFacilities(userLatLng: LatLng) {
@@ -109,6 +118,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
+                runOnUiThread {
+                    showSnackbar("Failed to fetch health facilities: ${e.message}")
+                }
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -147,9 +159,18 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                             }
                         }
                     }
+                } else {
+                    runOnUiThread {
+                        showSnackbar("Failed to fetch health facilities: ${response.message}")
+                    }
                 }
             }
         })
+    }
+
+    // Function to show snackbar messages
+    private fun showSnackbar(message: String) {
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
     }
 
     private fun navigateMain() {
@@ -165,14 +186,20 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     @SuppressLint("ObsoleteSdkInt")
     private fun setupWindow() {
-        if (Build.VERSION.SDK_INT >= 21) {
+        // For SDK version 24 (Nougat) and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             @Suppress("DEPRECATION")
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = Color.TRANSPARENT
         }
 
-        if (Build.VERSION.SDK_INT >= 30) {
-            window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        // For SDK version 30 (Android 11) and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.setDecorFitsSystemWindows(false)
+        } else {
+            // For SDK versions below 30
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         }
     }
 }

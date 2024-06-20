@@ -77,9 +77,11 @@ dependencies {
 
     // UI
     implementation ("androidx.viewpager2:viewpager2:1.0.0")
-    implementation ("com.google.android.material:material:1.4.0")
     implementation(libs.lottie)
     implementation(libs.glide)
+    implementation ("jp.wasabeef:glide-transformations:4.3.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+
 
     // CameraX
     implementation(libs.androidx.camera.camera2)
@@ -89,6 +91,4 @@ dependencies {
     //Google Maps
     implementation("com.google.android.gms:play-services-maps:18.0.2")
     implementation("com.google.android.gms:play-services-location:19.0.1")
-    implementation("com.google.android.libraries.places:places:2.5.0")
-
 }

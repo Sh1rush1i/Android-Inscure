@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">InsCure</string>
-    <string name="welcome">Welcome to</string>
+    <string name="welcome">Welcome</string>
     <string name="copyright">Copyright @2024</string>
 
     <!-- Title menu xml -->
@@ -64,7 +64,7 @@
     <string name="txt_intro_second">With just a simple image upload, users can receive fast and reliable predictions about various skin conditions, helping them take proactive steps towards their health.</string>
     <string name="txt_welcome">Welcome to Inscure</string>
     <string name="txt_next_page">Swipe for next page</string>
-
+    <string name="txt_press">Press the button below \n to identify your skin</string>
 
     <!-- Content Desc -->
     <string name="cd_image_skin">Skin Image</string>

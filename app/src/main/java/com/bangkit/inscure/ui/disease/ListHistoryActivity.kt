@@ -8,9 +8,12 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.inscure.R
 import com.bangkit.inscure.databinding.ActivityListHistoryBinding
 import com.bangkit.inscure.network.ApiService
 import com.bangkit.inscure.network.PredictionData
@@ -37,6 +40,7 @@ class ListHistoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupWindow()
+        playAnimLayout()
 
         setSupportActionBar(binding.toolbarHistory)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -49,6 +53,21 @@ class ListHistoryActivity : AppCompatActivity() {
         })
 
         fetchPredictionHistory()
+    }
+
+    private fun playAnimLayout() {
+        val context = this
+
+        val slideInFadeInToolbar = AnimationUtils.loadAnimation(context, R.anim.slide_in_right_fade_in_toolbar)
+        val fadeIn = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+
+        // Apply animations to views
+        applyAnimation(binding.toolbarHistory, slideInFadeInToolbar)
+        applyAnimation(binding.recyclerHistory, fadeIn)
+    }
+
+    private fun applyAnimation(view: View, animation: Animation) {
+        view.startAnimation(animation)
     }
 
     private fun fetchPredictionHistory() {
@@ -157,17 +176,20 @@ class ListHistoryActivity : AppCompatActivity() {
 
     @SuppressLint("ObsoleteSdkInt")
     private fun setupWindow() {
-
-        animStop()
-
-        if (Build.VERSION.SDK_INT >= 21) {
+        // For SDK version 24 (Nougat) and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             @Suppress("DEPRECATION")
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = Color.TRANSPARENT
         }
 
-        if (Build.VERSION.SDK_INT >= 30) {
-            window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        // For SDK version 30 (Android 11) and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.setDecorFitsSystemWindows(false)
+        } else {
+            // For SDK versions below 30
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         }
     }
 }

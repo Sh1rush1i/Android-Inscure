@@ -60,18 +60,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("ObsoleteSdkInt")
-    private fun setupWindow() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            @Suppress("DEPRECATION")
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.statusBarColor = Color.TRANSPARENT
-        }
-        if (Build.VERSION.SDK_INT >= 30) {
-            window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        }
-    }
-
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
@@ -114,6 +102,25 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         finishAffinity()
+    }
+
+    @SuppressLint("ObsoleteSdkInt")
+    private fun setupWindow() {
+        // For SDK version 24 (Nougat) and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            @Suppress("DEPRECATION")
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = Color.TRANSPARENT
+        }
+
+        // For SDK version 30 (Android 11) and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.setDecorFitsSystemWindows(false)
+        } else {
+            // For SDK versions below 30
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        }
     }
 
     companion object {

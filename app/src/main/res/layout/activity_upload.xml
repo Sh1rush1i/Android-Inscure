@@ -25,12 +25,12 @@
             android:id="@+id/btn_home"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
             android:contentDescription="@string/nav_home"
             android:src="@drawable/home_24px"
             android:background="@null"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="4dp"
             app:tint="@color/white"/>
     </RelativeLayout>
 
@@ -39,15 +39,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/container_title"
-        android:paddingTop="48dp"
-        android:paddingBottom="24dp"
-        android:paddingHorizontal="24dp">
+        android:paddingVertical="8dp">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/container_skin_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
+            android:layout_marginHorizontal="24dp"
             app:cardElevation="8dp">
             <ImageView
                 android:id="@+id/skin_image"
@@ -61,66 +60,79 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/prediction_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <androidx.core.widget.NestedScrollView
             android:layout_below="@+id/container_skin_image"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="24dp"
-            android:text="@string/txt_prediction"
-            android:textColor="@color/white"
-            tools:ignore="TextContrastCheck" />
-
-        <TextView
-            android:id="@+id/tv_prediction"
-            android:layout_below="@+id/prediction_title"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="24dp"
-            android:textColor="@color/white"
-            android:textStyle="bold|italic"
-            android:textSize="24sp"
-            tools:text="Hayo apa coba"/>
+            android:layout_marginTop="24dp">
 
-        <TextView
-            android:id="@+id/tv_confidence"
-            android:layout_below="@+id/tv_prediction"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="4dp"
-            android:textColor="@color/white"
-            android:textStyle="bold|italic"
-            android:textSize="24sp"
-            tools:text="%"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <TextView
+                    android:id="@+id/prediction_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/txt_prediction"
+                    android:textColor="@color/white"
+                    tools:ignore="TextContrastCheck" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lotiie_loading"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:visibility="invisible"
-            android:layout_below="@+id/prediction_title"
-            android:layout_centerHorizontal="true"
-            app:lottie_rawRes="@raw/loading_anim"
-            app:lottie_loop="true"
-            app:lottie_autoPlay="false"/>
+                <TextView
+                    android:id="@+id/tv_prediction"
+                    android:layout_below="@+id/prediction_title"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:padding="4dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:text="@string/txt_press"/>
+
+                <TextView
+                    android:id="@+id/tv_confidence"
+                    android:layout_below="@+id/tv_prediction"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textStyle="bold|italic"
+                    android:textSize="24sp"
+                    tools:text="%"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lotiie_loading"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:visibility="invisible"
+                    android:layout_below="@+id/prediction_title"
+                    android:layout_centerHorizontal="true"
+                    app:lottie_rawRes="@raw/loading_anim"
+                    app:lottie_loop="true"
+                    app:lottie_autoPlay="false"/>
+
+                <Button
+                    android:id="@+id/btn_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:layout_below="@+id/tv_confidence"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/btn_predict"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:backgroundTint="@color/primary_light"
+                    tools:ignore="TextContrastCheck,VisualLintButtonSize,TouchTargetSizeCheck" />
+
+            </RelativeLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/btn_add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/container_iv"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/custom_signin_button"
-        android:text="@string/btn_predict"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        app:backgroundTint="@color/secondary_light"
-        tools:ignore="TextContrastCheck,VisualLintButtonSize,TouchTargetSizeCheck" />
 </RelativeLayout>
