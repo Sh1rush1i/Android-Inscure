@@ -21,6 +21,7 @@ android {
 
         val properties = Properties()
         properties.load(rootProject.file("local.properties").inputStream())
+
         val baseUrl: String = properties.getProperty("BASE_URL")
         val mapsApiKey: String = properties["MAPS_API"] as String
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
@@ -52,7 +53,6 @@ android {
 }
 
 dependencies {
-
     // Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -76,12 +76,11 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
 
     // UI
-    implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    implementation(libs.viewpager2)
     implementation(libs.lottie)
     implementation(libs.glide)
-    implementation ("jp.wasabeef:glide-transformations:4.3.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
-
+    implementation(libs.glide.transformations)
+    annotationProcessor(libs.glide.compiler)
 
     // CameraX
     implementation(libs.androidx.camera.camera2)
@@ -89,6 +88,6 @@ dependencies {
     implementation(libs.androidx.camera.view)
 
     //Google Maps
-    implementation("com.google.android.gms:play-services-maps:18.0.2")
-    implementation("com.google.android.gms:play-services-location:19.0.1")
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
 }
